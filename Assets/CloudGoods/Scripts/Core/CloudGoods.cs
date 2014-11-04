@@ -560,7 +560,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
     static public void MoveItemStack(Guid StackToMove, int MoveAmount, string DestinationOwnerID, string DestinationOwnerType, int DestinationLocation, Action<Guid> callback)
     {
-        //Debug.Log("Stack to move: " + StackToMove + " move amount: " + MoveAmount);
+        Debug.Log("Stack to move: " + StackToMove + " move amount: " + MoveAmount);
 
         string url = string.Format("{0}MoveItemStack?StackToMove={1}&MoveAmount={2}&DestinationOwnerID={3}&DestinationOwnerType={4}&AppID={5}&DestinationLocation={6}", Url, StackToMove, MoveAmount, DestinationOwnerID, DestinationOwnerType, GuidAppID, DestinationLocation);
         WWW www = new WWW(url);
@@ -633,7 +633,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
     #region UserManagement
 
-    static public void GetUserFromWorld(SocialPlayPlatform platform, string platformUserID, string userName, string userEmail, Action<CloudGoodsUser> callback)
+    static public void GetUserFromWorld(CloudGoodsPlatform platform, string platformUserID, string userName, string userEmail, Action<CloudGoodsUser> callback)
     {
         string url = Url + "GetUserFromWorld?appID=" + GuidAppID + "&platformID=" + (int)platform + "&platformUserID=" + platformUserID + "&userName=" + WWW.EscapeURL(userName) + "&loginUserEmail=" + userEmail;
 
@@ -669,7 +669,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         Get().StartCoroutine(Get().ServiceGetString(www, callback));
     }
 
-    static public void LoginWithPlatformUser(SocialPlayPlatform platform, string platformUserID, string userName)
+    static public void LoginWithPlatformUser(CloudGoodsPlatform platform, string platformUserID, string userName)
     {
         GetUserFromWorld(platform, platformUserID, userName, null, (CloudGoodsUser user) =>
         {
@@ -868,6 +868,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
             if (callback != null) callback(premiumCurrency);
         }));
     }
+
 
     static public void GetWorldCurrencyInfo(Action<WorldCurrencyInfo> callback)
     {

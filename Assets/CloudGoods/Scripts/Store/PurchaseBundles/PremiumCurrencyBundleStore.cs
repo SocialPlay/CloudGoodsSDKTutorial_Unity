@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 public class PremiumCurrencyBundleStore : MonoBehaviour
 {
-    public PlatformPurchase platformPurchase = PlatformPurchase.Facebook;
+
     public GameObject Grid;
     [HideInInspector]
     public bool isInitialized = false;
@@ -36,86 +36,51 @@ public class PremiumCurrencyBundleStore : MonoBehaviour
         CloudGoods.OnRegisteredUserToSession += OnRegisteredUserToSession;
     }
 
-
-
-
-#if UNITY_WEBPLAYER
     void Start()
     {
-        Application.ExternalEval("UnityObject2.instances[0].getUnity().SendMessage(\"" + name + "\", \"ReceiveURL\", document.URL);");
-        //Application.ExternalEval("kongregateUnitySupport.getUnityObject().SendMessage(\"" + name + "\", \"ReceiveURL\", document.URL);");
-    }
-
-    public void ReceiveURL(string url)
-    {
-        // this will include the full URL, including url parameters etc.
-        domain = CloudGoods.GetDomain(url);
+        this.gameObject.name = "PremiumCurrencyBundleStore";
         if (CloudGoods.isLogged && !isInitialized) Initialize();
     }
-#endif
+
 
     void OnRegisteredUserToSession(string obj)
-    { 
+    {
         if (!isInitialized) Initialize();
     }
 
     public void Initialize()
-    {
-        int currentplatform = 1;
+    {   
 
-        if (platformPurchase == PlatformPurchase.Automatic)
+        switch (CloudGoodsSettings.BuildPlatform)
         {
+            case CloudGoodsSettings.BuildPlatformType.Automatic:
+                
 
-#if UNITY_WEBPLAYER
-            if (!string.IsNullOrEmpty(domain) && (domain.StartsWith("fbsbx") || domain.StartsWith("facebook")))
-            {
-                currentplatform = 1;
+            case CloudGoodsSettings.BuildPlatformType.Facebook:
+
                 platformPurchasor = gameObject.AddComponent<FaceBookPurchaser>();
-            }
-            else// if(domain.StartsWith("kongregate"))
-            {
-                currentplatform = 2;
+                break;
+            case CloudGoodsSettings.BuildPlatformType.Kongergate:
+
                 platformPurchasor = gameObject.AddComponent<KongregatePurchase>();
-            }
-#endif
+                break;
+            case CloudGoodsSettings.BuildPlatformType.Android:
 
-#if UNITY_ANDROID
-            platformPurchasor = gameObject.AddComponent<AndroidPremiumCurrencyPurchaser>();
-            currentplatform = 3;
-#endif
+                platformPurchasor = gameObject.AddComponent<AndroidPremiumCurrencyPurchaser>();
+                break;
+            case CloudGoodsSettings.BuildPlatformType.IOS:
+                platformPurchasor = gameObject.AddComponent<iOSPremiumCurrencyPurchaser>();
+                GameObject o = new GameObject("iOSConnect");
+                o.AddComponent<iOSConnect>();
+                break;
+            case CloudGoodsSettings.BuildPlatformType.CloudGoodsStandAlone:
+                Debug.LogWarning("Cloud Goods Stand alone has not purchase method currently.");
+                break;
 
-#if UNITY_IPHONE
-            platformPurchasor = gameObject.AddComponent<iOSPremiumCurrencyPurchaser>();
-            GameObject o = new GameObject("iOSConnect");
-            o.AddComponent<iOSConnect>();
-            currentplatform = 4;
-#endif
-        }
-        else
-        {
-            switch (platformPurchase)
-            {
-                case PlatformPurchase.Facebook:
-                    currentplatform = 1;
-                    platformPurchasor = gameObject.AddComponent<FaceBookPurchaser>();
-                    break;
-                case PlatformPurchase.Kongergate:
-                    currentplatform = 2;
-                    platformPurchasor = gameObject.AddComponent<KongregatePurchase>();
-                    break;
-                case PlatformPurchase.Android:
-                    currentplatform = 3;
-                    platformPurchasor = gameObject.AddComponent<AndroidPremiumCurrencyPurchaser>();
-                    break;
-                case PlatformPurchase.IOS:
-                    currentplatform = 4;
-                    platformPurchasor = gameObject.AddComponent<iOSPremiumCurrencyPurchaser>();
-                    break;
-            }
         }
         platformPurchasor.RecievedPurchaseResponse += OnRecievedPurchaseResponse;
         platformPurchasor.OnPurchaseErrorEvent += platformPurchasor_OnPurchaseErrorEvent;
-        CloudGoods.GetCreditBundles(currentplatform, OnPurchaseBundlesRecieved);
+        CloudGoods.GetCreditBundles((int)CloudGoodsSettings.BuildPlatform, OnPurchaseBundlesRecieved);
 
         isInitialized = true;
     }
@@ -127,8 +92,9 @@ public class PremiumCurrencyBundleStore : MonoBehaviour
 
     void OnPurchaseBundlesRecieved(List<PaidCurrencyBundleItem> data)
     {
+        Debug.Log("Got credit bundles");
         gridLoader = (IGridLoader)Grid.GetComponent(typeof(IGridLoader));
-        gridLoader.ItemAdded += OnItemInGrid; 
+        gridLoader.ItemAdded += OnItemInGrid;
         gridLoader.LoadGrid(data);
     }
 
@@ -151,10 +117,7 @@ public class PremiumCurrencyBundleStore : MonoBehaviour
         creditBundle.PremiumCurrencyName = "";
         creditBundle.Description = item.Description;
 
-        //// This is temporal until its added on the portal
-        //if (SocialPlaySettings.CreditBundlesDescription.Count != 0)
-        //    creditBundle.Description = (item.ID - 1) <= SocialPlaySettings.CreditBundlesDescription.Count ? SocialPlaySettings.CreditBundlesDescription[item.ID - 1] : "";
-
+  
         if (!string.IsNullOrEmpty(item.CurrencyIcon))
         {
             CloudGoods.GetItemTexture(item.CurrencyIcon, delegate(ImageStatus imageStatus, Texture2D texture)

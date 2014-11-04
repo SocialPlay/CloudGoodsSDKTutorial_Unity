@@ -15,9 +15,11 @@ public class UnityUICloudGoodsLogin : MonoBehaviour
     public Toggle autoLoginToggle;
 
     public GameObject resendVerificationTextObject;
+  
 
     private InputFieldValidation loginUserEmailValidator;
     private InputFieldValidation loginUserPasswordValidator;
+
 
     #endregion
 
@@ -37,31 +39,44 @@ public class UnityUICloudGoodsLogin : MonoBehaviour
     #region Confirmations Variables
     public GameObject confirmationTab;
     public Text confirmationStatus;
-
     #endregion
+
+    public bool IsKeptActiveOnAllPlatforms;
 
     void OnEnable()
     {
+        if (!IsNeeded()) return;
         CloudGoods.OnUserLogin += RecivedLoginResponce;
         CloudGoods.OnUserInfo += RecivedUserGuid;
         CloudGoods.OnUserRegister += RegisterMessageResponce;
         CloudGoods.OnForgotPassword += ForgotPasswordResponce;
         CloudGoods.OnVerificationSent += ResentVerificationResponce;
-        CloudGoodsLogout.SPUserLogout += OnLogout;
+        CloudGoodsLogout.CloudGoodsUserLogout += OnLogout;
     }
 
     void OnDisable()
     {
+        if (!IsNeeded()) return;
         CloudGoods.OnUserLogin -= RecivedLoginResponce;
         CloudGoods.OnUserInfo -= RecivedUserGuid;
         CloudGoods.OnUserRegister -= RegisterMessageResponce;
         CloudGoods.OnForgotPassword -= ForgotPasswordResponce;
         CloudGoods.OnVerificationSent -= ResentVerificationResponce;
-        CloudGoodsLogout.SPUserLogout -= OnLogout;
+        CloudGoodsLogout.CloudGoodsUserLogout -= OnLogout;
     }
 
     void Start()
     {
+
+        if (!IsNeeded())
+        {
+            Destroy(loginTab);
+            Destroy(registerTab);
+            Destroy(confirmationTab);
+            Destroy(this);
+            return;
+        }
+
         loginTab.SetActive(true);
         registerErrorLabel.text = "";
         registerTab.SetActive(false);
@@ -87,6 +102,7 @@ public class UnityUICloudGoodsLogin : MonoBehaviour
 
             RecivedUserGuid(userInfo);
         }
+
     }
 
     #region webservice responce events
@@ -102,7 +118,8 @@ public class UnityUICloudGoodsLogin : MonoBehaviour
 
         resendVerificationTextObject.SetActive(false);
         loginErrorLabel.text = "User logged in";
-        this.gameObject.SetActive(false);
+
+        CloseAllTabsOnLogin();
     }
 
     void ResentVerificationResponce(UserResponse responce)
@@ -169,8 +186,14 @@ public class UnityUICloudGoodsLogin : MonoBehaviour
     public void SwitchToConfirmation()
     {
         confirmationStatus.text = "Waiting ...";
-        confirmationStatus.gameObject.SetActive(true);
         confirmationTab.SetActive(true);
+        loginTab.SetActive(false);
+        registerTab.SetActive(false);
+    }
+
+    void CloseAllTabsOnLogin()
+    {
+        confirmationTab.SetActive(false);
         loginTab.SetActive(false);
         registerTab.SetActive(false);
     }
@@ -266,8 +289,24 @@ public class UnityUICloudGoodsLogin : MonoBehaviour
 
     void OnLogout()
     {
-        loginTab.SetActive(true);
+        Debug.Log("User logged out");
+        SwitchToLogin();
     }
 
     #endregion
+
+
+    public bool IsNeeded()
+    {
+        if (IsKeptActiveOnAllPlatforms) return true;
+        if (CloudGoodsSettings.BuildPlatform == CloudGoodsSettings.BuildPlatformType.CloudGoodsStandAlone
+            || CloudGoodsSettings.BuildPlatform == CloudGoodsSettings.BuildPlatformType.IOS
+            || CloudGoodsSettings.BuildPlatform == CloudGoodsSettings.BuildPlatformType.Android
+            || CloudGoodsSettings.BuildPlatform == CloudGoodsSettings.BuildPlatformType.Other)
+        {
+           
+            return true;
+        }
+        return false;
+    }
 }

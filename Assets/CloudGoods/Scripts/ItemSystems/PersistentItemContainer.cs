@@ -86,7 +86,7 @@ public class PersistentItemContainer : MonoBehaviour
     {
         if (isSave == true)
         {
-            //Debug.Log("Saving Modified: " + data.stackSize);
+            Debug.Log("Saving Modified: " + data.stackSize);
             data.isLocked = true;
             CloudGoods.MoveItemStack(data.stackID, data.stackSize, GetOwnerID(), OwnerType.ToString(), Location, delegate(Guid x)
             {

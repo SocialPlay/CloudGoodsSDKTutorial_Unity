@@ -9,9 +9,7 @@ public class LitJsonFxJsonObjectConverter : IServiceObjectConverter
 {
 
     public List<ItemData> ConvertToItemDataList(string ObjectData)
-    {
-        //Debug.Log("Object data " + ObjectData);
-       
+    {       
         ItemDataList itemDataList = new SocialPlay.Data.ItemDataList();
 
         string parsedString = ParseString(ObjectData);
@@ -44,15 +42,13 @@ public class LitJsonFxJsonObjectConverter : IServiceObjectConverter
     {
         if (reader.Token.ToString() == "ObjectStart")
         {
-            //Debug.Log("here");
             SocialPlay.Data.ItemData itemData = new SocialPlay.Data.ItemData();
             while (reader.Token.ToString() != "ObjectEnd")
             {
                 reader.Read();
 
                 if (reader.Token.ToString() == "PropertyName")
-                {
-                    //Debug.Log(reader.Value.ToString());
+                {          
                     string propertyString = reader.Value.ToString();
 
                     reader.Read();
@@ -155,16 +151,13 @@ public class LitJsonFxJsonObjectConverter : IServiceObjectConverter
                     }
                 }
             }
-
-            //Debug.Log("item data: " + itemData.Name);
-
             itemDataList.Add(itemData);
         }
     }
 
 
     public Guid ConvertToGuid(string dataString)
-    {
+    {      
         string guidString = ParseString(dataString);
         Guid newGuid = new Guid(guidString);
         return newGuid;
@@ -327,7 +320,7 @@ public class LitJsonFxJsonObjectConverter : IServiceObjectConverter
             itemBundle.Description = itemBundleData[i]["Description"].ToString();
             itemBundle.CreditPrice = int.Parse(itemBundleData[i]["CreditPrice"].ToString());
             itemBundle.CoinPrice = int.Parse(itemBundleData[i]["CoinPrice"].ToString());
-            itemBundle.State = (SocialPlayBundle)Enum.Parse(typeof(SocialPlayBundle), itemBundleData[i]["State"].ToString());
+            itemBundle.State = (CloudGoodsBundle)Enum.Parse(typeof(CloudGoodsBundle), itemBundleData[i]["State"].ToString());
             itemBundle.Image = itemBundleData[i]["Image"].ToString();
 
             //TODO Implement itembundle behaviours
@@ -364,9 +357,7 @@ public class LitJsonFxJsonObjectConverter : IServiceObjectConverter
     }
 
     public List<PaidCurrencyBundleItem> ConvertToListPaidCurrencyBundleItem(string dataString)
-    {
-        Debug.Log(dataString);
-
+    { 
         List<PaidCurrencyBundleItem> creditBundles = new List<PaidCurrencyBundleItem>();
 
         string parsedString = ParseString(dataString);
@@ -386,7 +377,6 @@ public class LitJsonFxJsonObjectConverter : IServiceObjectConverter
 
             for (int j = 0; j < creditBundleObj[i]["Data"].Count; j++)
             {
-                Debug.Log("Data info: " + creditBundleObj[i]["Data"][j]["Key"].ToString() + "  ,   " + creditBundleObj[i]["Data"][j]["Value"].ToString());
                 creditBundle.CreditPlatformIDs.Add(creditBundleObj[i]["Data"][j]["Key"].ToString(), creditBundleObj[i]["Data"][j]["Value"].ToString());
             }
 
@@ -406,8 +396,6 @@ public class LitJsonFxJsonObjectConverter : IServiceObjectConverter
     public UserResponse ConvertToSPLoginResponse(string dataString)
     {
         string parsedString = ParseString(dataString);
-
-        Debug.Log(parsedString);
 
         JsonData data = LitJson.JsonMapper.ToObject(parsedString);
 

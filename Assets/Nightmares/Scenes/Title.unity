@@ -1552,7 +1552,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400014, guid: f993c07d06665444e836d4874ccbdfea, type: 2}
       propertyPath: platformPurchase
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f993c07d06665444e836d4874ccbdfea, type: 2}
@@ -10231,6 +10231,7 @@ MonoBehaviour:
   registerErrorLabel: {fileID: 1510605442}
   confirmationTab: {fileID: 1312982791}
   confirmationStatus: {fileID: 348262479}
+  IsKeptActiveOnAllPlatforms: 0
 --- !u!1 &1866407943
 GameObject:
   m_ObjectHideFlags: 0
@@ -11734,7 +11735,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02395ebb66f3bd4ba3edaf9fcf20f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platformPurchase: 0
   Grid: {fileID: 57251778}
   isInitialized: 0
   type: 1
