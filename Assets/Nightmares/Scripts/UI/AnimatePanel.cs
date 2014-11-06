@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DisplayStorePanel : MonoBehaviour
+public class AnimatePanel : MonoBehaviour
 {
+    string showPanelTrigger = "Show Panel";
+    string hidePanelTrigger = "Hide Panel";
+
     Animator anim;
 
     void Start()
@@ -10,19 +13,19 @@ public class DisplayStorePanel : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    public void OpenStore()
+    public void ShowPanel()
     {
         if (!anim.IsInTransition(0))
         {
-            anim.SetTrigger("Store Open");
+            anim.SetTrigger(showPanelTrigger);
         }
     }
 
-    public void CloseStore()
+    public void HidePanel()
     {
         if (!anim.IsInTransition(0))
         {
-            anim.SetTrigger("Store Closed");
+            anim.SetTrigger(hidePanelTrigger);
         }
     }
 }

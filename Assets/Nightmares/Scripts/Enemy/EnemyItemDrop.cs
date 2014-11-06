@@ -32,9 +32,9 @@ public class EnemyItemDrop : MonoBehaviour {
         dropPoint += itemDropPoint;
 
         GameObject item = Instantiate(itemDropperPrefab, dropPoint, Quaternion.identity) as GameObject;
-        ItemGetter itemGetter = item.GetComponent<ItemGetter>();
+        ItemGenerator itemGenerator = item.GetComponent<ItemGenerator>();
 
-        itemGetter.MaxEnergy = maxItemDropEnergy;
-        itemGetter.GetItems();
+        itemGenerator.MaxEnergy = maxItemDropEnergy;
+        itemGenerator.GenerateItems();
     }
 }

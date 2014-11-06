@@ -4,7 +4,6 @@ using System.Collections;
 
 public class LoginManager : MonoBehaviour {
     public UnityUICloudGoodsLogin loginSystem;
-    public DisplayStoreItems displayStoreItems;
 
     public Button logoutButton;
     public Button shopButton;
@@ -22,14 +21,7 @@ public class LoginManager : MonoBehaviour {
     {
         welcomeMessage.text = "Welcome " + player.userName + "\n" + player.userEmail;
 
-        Initialize();
-
         ActivateButtons();
-    }
-
-    void Initialize()
-    {
-        displayStoreItems.DisplayItems();
     }
 
     void ActivateButtons()

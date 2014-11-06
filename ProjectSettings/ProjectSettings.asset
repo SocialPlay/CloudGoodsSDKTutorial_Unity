@@ -107,7 +107,13 @@ PlayerSettings:
     m_Icons:
     - m_Icon: {fileID: 2800000, guid: 04e32cc13a24dfe42ae02615ab56c85d, type: 3}
       m_Size: 128
-  m_BuildTargetBatching: []
+  m_BuildTargetBatching:
+  - m_BuildTarget: iPhone
+    m_StaticBatching: 1
+    m_DynamicBatching: 1
+  - m_BuildTarget: Android
+    m_StaticBatching: 1
+    m_DynamicBatching: 1
   webPlayerTemplate: APPLICATION:No Context Menu
   m_TemplateCustomTags: {}
   XboxTitleId: 

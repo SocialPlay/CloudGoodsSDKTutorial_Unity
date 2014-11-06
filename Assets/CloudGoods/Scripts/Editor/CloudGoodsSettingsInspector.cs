@@ -59,7 +59,7 @@ public class CloudGoodsSettingsInspector : Editor
     }
 
     public override void OnInspectorGUI()
-    {     
+    {
         GUILayout.BeginVertical(GUILayout.Width(spLogo.height));
         GUILayout.BeginHorizontal();
         if (spLogo != null) GUILayout.Label(spLogo);
@@ -81,7 +81,7 @@ public class CloudGoodsSettingsInspector : Editor
         GUILayout.EndHorizontal();
         GUILayout.EndVertical();
 
-        DrawGUI();      
+        DrawGUI();
     }
 
     void DrawGUI()
@@ -140,7 +140,7 @@ public class CloudGoodsSettingsInspector : Editor
     void DrawSettingsGUI()
     {
         serializedObject.Update();
-        // GUILayout.Label("Settings", "BoldLabel");
+        GUILayout.Label("Application", "BoldLabel");
         EditorGUILayout.PropertyField(serializedObject.FindProperty("appID"), new GUIContent("App ID"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("appSecret"), new GUIContent("App Secret"));
 
@@ -148,23 +148,79 @@ public class CloudGoodsSettingsInspector : Editor
         {
             EditorGUILayout.HelpBox("Go To http://developer.socialplay.com to get your AppID and AppSecret", MessageType.Warning);
         }
+
+        EditorGUILayout.Separator();
+        GUILayout.Label("Item Container", "BoldLabel");
+
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("defaultUIItem"), new GUIContent("Default UI Item", "Default UI Item"));
+        serializedObject.FindProperty("defaultTexture").objectReferenceValue = EditorGUILayout.ObjectField("Default Texture", serializedObject.FindProperty("defaultTexture").objectReferenceValue, typeof(Texture2D), false) as Texture2D;
+
+        EditorGUILayout.Separator();
+        GUILayout.Label("Item Prefab Initializer", "BoldLabel");
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("defaultItemDrop"), new GUIContent("Default Drop Prefab", "The Item that will be droped if no asset is found for the item spawning into the world"));
+        if (GUILayout.Button(new GUIContent("Add Extra Prefab")))
+        {
+            AddPrefab();
+        }
+        for (int i = 0; i < serializedObject.FindProperty("itemInitializerPrefabs").arraySize; i++)
+        {
+            GUIContent label = new GUIContent((serializedObject.FindProperty("itemInitializerPrefabs").GetArrayElementAtIndex(i).FindPropertyRelative("prefab").objectReferenceValue!=null?serializedObject.FindProperty("itemInitializerPrefabs").GetArrayElementAtIndex(i).FindPropertyRelative("prefab").objectReferenceValue.name:"Empty"));
+            if (EditorGUILayout.PropertyField(serializedObject.FindProperty("itemInitializerPrefabs").GetArrayElementAtIndex(i),label))
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("itemInitializerPrefabs").GetArrayElementAtIndex(i).FindPropertyRelative("prefab"));
+                EditorGUILayout.BeginHorizontal();
+                SerializedProperty filter = serializedObject.FindProperty("itemInitializerPrefabs").GetArrayElementAtIndex(i).FindPropertyRelative("itemFilters");
+                bool isShowing = EditorGUILayout.PropertyField(filter, GUILayout.MaxWidth(100));
+                GUILayout.Label("(" + filter.arraySize.ToString() + ")");
+
+                if (GUILayout.Button("+"))
+                {
+                    AddFilter(filter);
+                }
+
+                EditorGUILayout.EndHorizontal();
+
+                if (isShowing)
+                {
+                    for (int filterIndex = 0; filterIndex < filter.arraySize; filterIndex++)
+                    {
+                        EditorGUILayout.BeginHorizontal();
+                        GUILayout.FlexibleSpace();
+                        EditorGUILayout.BeginHorizontal(GUI.skin.button);
+                        EditorGUILayout.PropertyField(filter.GetArrayElementAtIndex(filterIndex));
+                     
+                        EditorGUILayout.EndHorizontal();
+                        if (GUILayout.Button("Remove"))
+                        {
+                            filter.DeleteArrayElementAtIndex(filterIndex);
+                        }
+                        EditorGUILayout.EndVertical();
+                    }
+                }
+
+                EditorGUI.indentLevel--;
+            }
+        }
+
         EditorGUILayout.Separator();
         GUILayout.Label("Android", "BoldLabel");
         EditorGUILayout.PropertyField(serializedObject.FindProperty("androidKey"), new GUIContent("Key"));
 
-        EditorGUILayout.Separator();
-        GUILayout.Label("Defaults", "BoldLabel");
-        serializedObject.FindProperty("defaultTexture").objectReferenceValue = EditorGUILayout.ObjectField("Default Texture", serializedObject.FindProperty("defaultTexture").objectReferenceValue, typeof(Texture2D), false) as Texture2D;
-
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("defaultUIItem"), new GUIContent("Default UI Item", "Default UI Item"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("defaultItemDrop"), new GUIContent("Default Drop Prefab", "The Item that will be droped if no asset is found for the item spawning into the world"));
-        
-        CloudGoodsSettings.BuildPlatformType type = (CloudGoodsSettings.BuildPlatformType)serializedObject.FindProperty("buildPlatform").enumValueIndex;
-        serializedObject.FindProperty("buildPlatform").enumValueIndex = (int)(CloudGoodsSettings.BuildPlatformType)EditorGUILayout.EnumPopup("Platform build Type", type); 
         serializedObject.ApplyModifiedProperties();
     }
 
     #endregion
+
+    void AddPrefab()
+    {
+        serializedObject.FindProperty("itemInitializerPrefabs").InsertArrayElementAtIndex(serializedObject.FindProperty("itemInitializerPrefabs").arraySize);
+    }
+
+    void AddFilter(SerializedProperty prop)
+    {
+        prop.InsertArrayElementAtIndex(prop.arraySize);
+    }
 
     void DrawAboutGUI()
     {
@@ -203,6 +259,6 @@ public class CloudGoodsSettingsInspector : Editor
     }
 
 
- 
+
 
 }

@@ -6,10 +6,10 @@ using System;
 using Newtonsoft.Json.Linq;
 using SocialPlay.Data;
 
-public class GameItemContainerInserter : MonoBehaviour, IItemPutter
+public class GetItemsContainerInserter : MonoBehaviour, IGetItems
 {
 
-    static public GameItemContainerInserter instance;
+    static public GetItemsContainerInserter instance;
 
     public ItemContainer container;
 
