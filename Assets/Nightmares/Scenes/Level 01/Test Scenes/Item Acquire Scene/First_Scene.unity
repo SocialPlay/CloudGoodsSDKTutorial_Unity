@@ -3907,7 +3907,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primaryPauseKey: 27
   secondaryPauseKey: 9
-  enemyManager: {fileID: 14871708}
 --- !u!1001 &1167184083
 Prefab:
   m_ObjectHideFlags: 0

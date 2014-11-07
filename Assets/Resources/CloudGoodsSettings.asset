@@ -11,8 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84caf74c4c68b7f45bf38221ca7646ef, type: 3}
   m_Name: CloudGoodsSettings
   m_EditorClassIdentifier: 
-  appID: 
-  appSecret: 
+  appID: c1fadfd8-8713-4330-83a5-cb9b782c1b40
+  appSecret: 7ibPuOMQ1F3ajyHb6DDfbLqNAlwkhr
   screen: 0
   url: http://webservice.socialplay.com/cloudgoods/cloudgoodsservice.svc/
   bundlesUrl: https://socialplay.blob.core.windows.net/unityassetbundles/
@@ -20,26 +20,4 @@ MonoBehaviour:
   defaultTexture: {fileID: 0}
   defaultItemDrop: {fileID: 100004, guid: 6fe33dfbf2afc0a4caa6c3dcf3768c3a, type: 2}
   defaultUIItem: {fileID: 100000, guid: 9eabe629fe5af614f90d47a287c16fa3, type: 2}
-  itemInitializerPrefabs:
-  - prefab: {fileID: 100000, guid: 10f1b7f995d2fa240adc3a5edae79c87, type: 2}
-    itemFilters: []
-  - prefab: {fileID: 0}
-    itemFilters: []
-  - prefab: {fileID: 0}
-    itemFilters:
-    - selectorType: 0
-      isInverted: 0
-      classList: 00000000
-      varianceIDList: 
-      itemIDList: 
-      TagList: []
-      behaviours: []
-  - prefab: {fileID: 0}
-    itemFilters:
-    - selectorType: 0
-      isInverted: 0
-      classList: 00000000
-      varianceIDList: 
-      itemIDList: 
-      TagList: []
-      behaviours: []
+  itemInitializerPrefabs: []

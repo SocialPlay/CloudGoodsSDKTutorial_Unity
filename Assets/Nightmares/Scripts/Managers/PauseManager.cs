@@ -8,8 +8,6 @@ public class PauseManager : MonoBehaviour
     public KeyCode primaryPauseKey = KeyCode.Escape;
     public KeyCode secondaryPauseKey = KeyCode.Tab;
 
-    public GameObject enemyManager;
-
     static bool isPaused = false;
 
     public static bool IsPaused
@@ -43,6 +41,11 @@ public class PauseManager : MonoBehaviour
         {
             isPaused = !isPaused;
         }
+    }
+
+    public void TogglePauseFunction()
+    {
+        isPauseDisabled = !isPauseDisabled;
     }
 }
 
