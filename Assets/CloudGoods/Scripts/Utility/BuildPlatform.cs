@@ -9,8 +9,6 @@ public class BuildPlatform : MonoBehaviour
 
     public BuildPlatformType SelectedType;
 
-    private static bool MadeRequestForDomain = false;
-    private static string domainURL = string.Empty;
     private static BuildPlatformType selected;
 
     public enum BuildPlatformType
@@ -41,6 +39,10 @@ public class BuildPlatform : MonoBehaviour
             }
             if (instance.SelectedType == BuildPlatformType.Automatic)
             {
+                if (Application.isEditor)
+                {
+                    selected = BuildPlatformType.CloudGoodsStandAlone;
+                }
 #if UNITY_IPHONE
                 selected = BuildPlatformType.IOS;
 #elif UNITY_ANDROID

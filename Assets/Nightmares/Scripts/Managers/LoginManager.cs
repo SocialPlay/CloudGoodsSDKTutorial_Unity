@@ -14,6 +14,8 @@ public class LoginManager : MonoBehaviour {
 
     void Awake()
     {
+        DisableButtons();
+
         CloudGoods.OnUserAuthorized += CloudGoods_OnUserAuthorized;
     }
 

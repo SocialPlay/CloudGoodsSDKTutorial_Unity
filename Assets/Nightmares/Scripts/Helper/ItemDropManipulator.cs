@@ -32,7 +32,6 @@ public class ItemDropManipulator : MonoBehaviour
         }
         else
         {
-            Debug.Log("not touching the floor" + collision.gameObject.tag);
             Vector3 force = new Vector3(Random.Range(-10, 10), 5, Random.Range(-10, 10));
             rigidbody.AddForce(force * 10);
         }
