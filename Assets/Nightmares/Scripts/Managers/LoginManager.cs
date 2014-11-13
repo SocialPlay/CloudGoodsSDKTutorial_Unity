@@ -46,10 +46,7 @@ public class LoginManager : MonoBehaviour {
     {
         CloudGoods.Logout();
 
-        loginSystem.gameObject.SetActive(true);
-        loginSystem.loginUserPassword.value = string.Empty;
-        loginSystem.loginUserPassword.text.text = string.Empty;
-        loginSystem.loginErrorLabel.text = string.Empty;
+        loginSystem.SwitchToLogin();
 
         DisableButtons();
 
