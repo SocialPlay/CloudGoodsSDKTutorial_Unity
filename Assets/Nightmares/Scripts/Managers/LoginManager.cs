@@ -21,7 +21,10 @@ public class LoginManager : MonoBehaviour {
 
     void CloudGoods_OnUserAuthorized(CloudGoodsUser player)
     {
-        welcomeMessage.text = "Welcome " + player.userName + "\n" + player.userEmail;
+        if (welcomeMessage != null)
+        {
+            welcomeMessage.text = "Welcome " + player.userName + "\n" + player.userEmail;
+        }
 
         ActivateButtons();
     }
