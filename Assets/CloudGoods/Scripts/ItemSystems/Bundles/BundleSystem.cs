@@ -96,7 +96,7 @@ namespace SocialPlay.Bundles
             ExceptionIfURLNotSet();
             ExceptionIfAssetNameNotSet(assetName);
             AddToReferenceList(assetName, callback, groupName);
-            Debug.Log("DownloadAssetFromServerOrCache : " + assetName);
+            //Debug.Log("DownloadAssetFromServerOrCache : " + assetName);
             AssetBundleGetter.LoadFromCacheOrDownload(assetName, 1, OnRecievedAssetFromServerOrCache, isAlwaysCallback);
         }
 
@@ -128,8 +128,8 @@ namespace SocialPlay.Bundles
 
         public static void OnRecievedAssetFromServerOrCache(string assetName, AssetBundle bundle)
         {
-            Debug.Log(assetName);
-            Debug.Log(bundle);
+            //Debug.Log(assetName);
+            //Debug.Log(bundle);
 
             if (bundle == null)
             {

@@ -15,39 +15,50 @@ public class iOSPremiumCurrencyPurchaser : MonoBehaviour, IPlatformPurchaser
 	void Start()
 	{
 		iOSConnect.onReceivedMessage += OnReceivedPurchaseResponse;
+		iOSConnect.onItemPurchaseCancelled += OnItemPurchaseCancelled;
+		iOSConnect.onReceivedErrorOnPurchase += OnItemPurchaseError;
 	}
 	
 	public void Purchase(PremiumBundle bundleItem, int amount, string userID)
 	{
+		Debug.Log ("Purchase ios called");
 		currentBundleID = int.Parse (bundleItem.BundleID);
 		iOSConnect.RequestInAppPurchase (bundleItem.ProductID);
 	}
-
 	
 	public void OnReceivedPurchaseResponse(string data)
 	{
-        if (data == "Success")
-        {
-            BundlePurchaseRequest bundlePurchaseRequest = new BundlePurchaseRequest();
-            bundlePurchaseRequest.BundleID = currentBundleID;
-            bundlePurchaseRequest.UserID = CloudGoods.user.userID.ToString();
-            bundlePurchaseRequest.ReceiptToken = UnityEngine.Random.Range(1, 1000000).ToString();
-
-            bundlePurchaseRequest.PaymentPlatform = 4;
-
-			string bundleJsonString = JsonMapper.ToJson(bundlePurchaseRequest);
-
-            CloudGoods.PurchaseCreditBundles(bundleJsonString, OnReceivedSocialplayCreditsResponse);
-        }
-        else if (data == "Failed" || data == "Cancelled")
-        {
-			RecievedPurchaseResponse("Cancelled");
-        }
+    	SendReceiptTokenForVerification (data, 4);
+	}
+	
+	void OnItemPurchaseCancelled(string cancelledString)
+	{
+		OnPurchaseErrorEvent ("Cancelled");
 	}
 
-    public void OnReceivedSocialplayCreditsResponse(string data)
-    {
+	void OnItemPurchaseError(string errorMessage)
+	{
+		OnPurchaseErrorEvent ("Error has occured on purchase: " + errorMessage);
+	}
 
+	void SendReceiptTokenForVerification (string data, int platform)
+	{
+		BundlePurchaseRequest bundlePurchaseRequest = new BundlePurchaseRequest ();
+		bundlePurchaseRequest.BundleID = currentBundleID;
+		bundlePurchaseRequest.UserID = CloudGoods.user.userID.ToString ();
+		bundlePurchaseRequest.ReceiptToken = data;
+		bundlePurchaseRequest.PaymentPlatform = platform;
+		string bundleJsonString = JsonMapper.ToJson (bundlePurchaseRequest);
+
+		Debug.Log ("Sending bundle purchase: " + bundleJsonString);
+
+		CloudGoods.PurchaseCreditBundles (bundleJsonString, OnReceivedSocialplayCreditsResponse);
+	}
+
+
+    void OnReceivedSocialplayCreditsResponse(string data)
+    {
+		Debug.Log ("received credit response: " + data);
 		RecievedPurchaseResponse("Success");
         CloudGoods.GetPremiumCurrencyBalance(null);
     }

@@ -278,8 +278,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemDropPrefab: {fileID: 100000, guid: 1c3c662fa79563040a16f38a7509a0f9, type: 2}
+  expDropPrefab: {fileID: 100000, guid: 18a9bc3a694b7564788a876970ab9a61, type: 2}
   dropItemOffsetPosition: {x: 0, y: 1, z: 0}
   maxDroppedItemEnergy: 500
+  numberOfExperienceDrops: 11
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1

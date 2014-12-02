@@ -50,7 +50,7 @@ public class UnityUICloudGoodsLogin : MonoBehaviour
         CloudGoods.OnUserRegister += RegisterMessageResponce;
         CloudGoods.OnForgotPassword += ForgotPasswordResponce;
         CloudGoods.OnVerificationSent += ResentVerificationResponce;
-        CloudGoodsLogout.CloudGoodsUserLogout += OnLogout;
+        CloudGoods.onLogout += OnLogout;
     }
 
     void OnDisable()
@@ -60,7 +60,8 @@ public class UnityUICloudGoodsLogin : MonoBehaviour
         CloudGoods.OnUserRegister -= RegisterMessageResponce;
         CloudGoods.OnForgotPassword -= ForgotPasswordResponce;
         CloudGoods.OnVerificationSent -= ResentVerificationResponce;
-        CloudGoodsLogout.CloudGoodsUserLogout -= OnLogout;
+        CloudGoods.onLogout -= OnLogout;
+        //CloudGoodsLogout.CloudGoodsUserLogout -= OnLogout;
     }
 
     void Start()
@@ -85,6 +86,10 @@ public class UnityUICloudGoodsLogin : MonoBehaviour
         if (!string.IsNullOrEmpty(PlayerPrefs.GetString("SocialPlay_Login_UserEmail")))
         {
             loginUserEmail.text = PlayerPrefs.GetString("SocialPlay_Login_UserEmail");
+        }
+        else
+        {
+            loginUserEmail.text = null;
         }
 
         if (!string.IsNullOrEmpty(PlayerPrefs.GetString("SocialPlay_UserGuid")))

@@ -5,18 +5,18 @@ using System.Collections;
 public class ScoreManager : MonoBehaviour
 {
     public static int score;        // The player's score.
+    public static int highestScore;
 
 
-    Text text;                      // Reference to the Text component.
+    public Text text;                      // Reference to the Text component.
+    public Text highestText;
 
 
     void Awake()
     {
-        // Set up the reference.
-        text = GetComponent<Text>();
-
         // Reset the score.
         score = 0;
+        highestScore = 0;
     }
 
 
@@ -24,5 +24,6 @@ public class ScoreManager : MonoBehaviour
     {
         // Set the displayed text to be the word "Score" followed by the score value.
         text.text = "Score: " + score;
+        highestText.text = "Highest: " + highestScore;
     }
 }

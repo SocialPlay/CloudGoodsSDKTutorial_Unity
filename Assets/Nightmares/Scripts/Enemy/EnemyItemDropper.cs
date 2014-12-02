@@ -4,8 +4,10 @@ using System.Collections;
 public class EnemyItemDropper : MonoBehaviour
 {
     public GameObject itemDropPrefab;
+    public GameObject expDropPrefab;
     public Vector3 dropItemOffsetPosition;
     public int maxDroppedItemEnergy;
+    public int numberOfExperienceDrops = 3;
 
     EnemyHealth enemyHealth;
     bool gotItem = false;
@@ -22,9 +24,24 @@ public class EnemyItemDropper : MonoBehaviour
             if (enemyHealth.isDead)
             {
                 gotItem = true;
-                DropItems();
+
+                DropExperience();
+
+                if (ItemDropChance()) DropItems();
             }
         }
+    }
+
+    bool ItemDropChance()
+    {
+        int dropChance = Random.Range(0, 10);
+
+        if (dropChance <= 1 || dropChance >= 10)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     void DropItems()
@@ -37,5 +54,18 @@ public class EnemyItemDropper : MonoBehaviour
 
         itemGenerator.MaxEnergy = maxDroppedItemEnergy;
         itemGenerator.GenerateItems();
+    }
+
+    void DropExperience()
+    {
+        Vector3 dropPos = transform.position;
+        dropPos += Vector3.up * 2;
+
+        int randomModifier = Random.Range(numberOfExperienceDrops - 3, numberOfExperienceDrops + 3);
+
+        for (int i = 0; i < numberOfExperienceDrops; i++)
+        {
+            Instantiate(expDropPrefab, dropPos, Quaternion.identity);
+        }
     }
 }

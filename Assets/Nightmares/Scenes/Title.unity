@@ -553,7 +553,7 @@ RectTransform:
   m_RootOrder: 8
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -2000}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &94866968
@@ -5082,7 +5082,7 @@ RectTransform:
   m_RootOrder: 7
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -2000}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &939343461
@@ -5468,7 +5468,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22400116, guid: 28bd074c3224efe4d81534133e25eb65, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2000
       objectReference: {fileID: 0}
     - target: {fileID: 22400116, guid: 28bd074c3224efe4d81534133e25eb65, type: 2}
       propertyPath: m_SizeDelta.x
@@ -6367,7 +6367,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22400016, guid: ff5e9debc3f786e4396b7887684163f6, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2000
       objectReference: {fileID: 0}
     - target: {fileID: 22400016, guid: ff5e9debc3f786e4396b7887684163f6, type: 2}
       propertyPath: m_SizeDelta.x
@@ -6668,13 +6668,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bf60c4fddf276e40b358664dc380c1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PremiumCurrencyPurchaseButton: {fileID: 115370197}
-  StandardCurrencyPurchaseButton: {fileID: 1136606988}
+  PremiumCurrencyPurchaseWindowHalf: {fileID: 0}
+  PremiumCurrencyPurchaseWindowFull: {fileID: 0}
+  StandardCurrencyPurchaseWindowHalf: {fileID: 0}
+  StandardCurrencyPurchaseWindowFull: {fileID: 0}
   bundleItemDisplayPrefab: {fileID: 100004, guid: ac10eff4b1b331d4a816afadcf64624c,
     type: 2}
   BundleName: {fileID: 976344175}
-  PremiumCurrencyAmount: {fileID: 633619794}
-  StandardCurrencyAmount: {fileID: 1615260462}
   purchaseContainerLocation: 0
   bundleGrid: {fileID: 864435604}
 --- !u!114 &1205831645
@@ -7337,14 +7337,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemNameDisplay: {fileID: 7519893}
-  itemCreditCostDisplay: {fileID: 1636497942}
-  itemCoinCostDisplay: {fileID: 564862482}
   itemDetailsDisplay: {fileID: 1560746376}
   itemQuantityAmount: {fileID: 1338887160}
   increaseQuantityButton: {fileID: 1854202971}
   decreaseQuantityButton: {fileID: 1183205099}
-  PremiumCurrencyPurchaseButton: {fileID: 488942265}
-  StandardCurrencyPurchaseButton: {fileID: 138614305}
+  PremiumCurrencyHalfWindow: {fileID: 0}
+  StandardCurrencyHalfWindow: {fileID: 0}
+  PremiumCurrencyFullWindow: {fileID: 0}
+  StandardCurrencyFullWindow: {fileID: 0}
   itemTexture: {fileID: 1911839573}
 --- !u!114 &1276412513
 MonoBehaviour:

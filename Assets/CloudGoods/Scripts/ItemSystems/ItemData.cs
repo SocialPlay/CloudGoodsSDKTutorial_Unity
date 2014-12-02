@@ -49,7 +49,7 @@ public class ItemData
         }
         catch (System.Exception e)
         {
-            Debug.Log(e.Message);
+            //Debug.Log(e.Message);
             callBack(null);
         }
     }

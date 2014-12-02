@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+//using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json;
 using LitJson;
 using SocialPlay.Data;
 using SocialPlay.Generic;
@@ -16,7 +16,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
     static public event Action<string> onErrorEvent;
     static public event Action<UserResponse> OnUserLogin;
-    static public event Action<string> onLogout;
+    static public event Action onLogout;
     static public event Action<CloudGoodsUser> OnUserInfo;
     static public event Action<UserResponse> OnUserRegister;
     static public event Action<UserResponse> OnForgotPassword;
@@ -75,7 +75,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
                     onErrorEvent("AppID has not been defined. Open Cloud Goods Settings from the menu.");
             }
 
-            return CloudGoodsSettings.AppID;
+            return CloudGoodsSettings.AppID.Trim();
         }
     }
 
@@ -117,7 +117,19 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
     static public Guid GuidAppID
     {
-        get { return new Guid(AppID); }
+        get
+        {
+            try
+            {
+                return new Guid(AppID);
+            }
+            catch
+            {
+                Debug.LogError("AppID is not a valid Guid. Please check your guid and try again.");
+                return Guid.Empty;
+            }
+
+        }
     }
 
     /// <summary>
@@ -334,8 +346,11 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         if (OnUserAuthorized != null)
             OnUserAuthorized(user);
 
+        //Debug.Log ("get session before");
+
         CloudGoods.RegisterGameSession(1, (Guid sessionGuid) =>
         {
+            //Debug.Log("Register game session finished: " + sessionGuid);
             user.sessionID = sessionGuid;
             if (OnRegisteredUserToSession != null) OnRegisteredUserToSession(user.userID.ToString());
         });
@@ -561,7 +576,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
     static public void MoveItemStack(Guid StackToMove, int MoveAmount, string DestinationOwnerID, string DestinationOwnerType, int DestinationLocation, Action<Guid> callback)
     {
-        Debug.Log("Stack to move: " + StackToMove + " move amount: " + MoveAmount);
+        //Debug.Log("Stack to move: " + StackToMove + " move amount: " + MoveAmount);
 
         string url = string.Format("{0}MoveItemStack?StackToMove={1}&MoveAmount={2}&DestinationOwnerID={3}&DestinationOwnerType={4}&AppID={5}&DestinationLocation={6}", Url, StackToMove, MoveAmount, DestinationOwnerID, DestinationOwnerType, GuidAppID, DestinationLocation);
         WWW www = new WWW(url);
@@ -618,7 +633,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
     {
         RemoveMultipleItems infos = new RemoveMultipleItems();
         infos.stacks = StacksToRemove;
-        string stacksInfo = JsonConvert.SerializeObject(infos);
+        string stacksInfo = JsonMapper.ToJson(infos);
         string url = string.Format("{0}RemoveStackItems?stacks={1}", Url, stacksInfo);
         WWW www = new WWW(url);
 
@@ -645,7 +660,9 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
     static public void RegisterGameSession(int instanceID, Action<Guid> callback)
     {
-        string url = Url + "RegisterSession?UserId=" + user.userID + "&AppID=" + AppID + "&InstanceId=" + instanceID;
+        string url = Url + "RegisterSession?UserId=" + user.userID + "&AppID=" + AppID.Trim() + "&InstanceId=" + instanceID;
+
+        //Debug.Log (url);
 
         WWW www = new WWW(url);
 
@@ -762,6 +779,11 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         PlayerPrefs.DeleteKey("SocialPlay_UserGuid");
         PlayerPrefs.DeleteKey("SocialPlay_UserName");
         PlayerPrefs.DeleteKey("SocialPlay_UserEmail");
+        if (onLogout != null)
+        {
+            onLogout();
+        }
+
 
         user = null;
     }
@@ -1073,6 +1095,8 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
         WWW www = new WWW(url);
 
+		Debug.Log ("URL get credit bundles:" + url);
+
         Get().StartCoroutine(Get().ServiceGetCreditBundles(www, callback));
     }
 
@@ -1082,8 +1106,11 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
         WWW www = new WWW(url);
 
+		Debug.Log ("Purchase bundles url: " + url);
+
         Get().StartCoroutine(Get().ServiceGetString(www, (string message) =>
         {
+			Debug.Log("PUrchase credit bundles callback: : " + message);
             JsonData response = LitJson.JsonMapper.ToObject(message);
 
             GetStandardCurrencyBalance(0, null);
@@ -1135,13 +1162,13 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         request.appID = AppID;
         request.OwnerType = WebModels.OwnerTypes.User;
 
-        string newStringRequest = JsonConvert.SerializeObject(request);
+        string newStringRequest = JsonMapper.ToJson(request);
 
         SecurePayload payload = new SecurePayload();
         payload.token = token;
         payload.data = newStringRequest;
 
-        string securePayloadString = JsonConvert.SerializeObject(payload);
+        string securePayloadString = JsonMapper.ToJson(payload);
 
         Debug.Log(securePayloadString);
 
@@ -1176,7 +1203,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
     static public void AddInstantCraftToQueue(int ItemID, int Amount, List<KeyValuePair<string, int>> ItemIngredients, Action<string> callback)
     {
-        string url = string.Format("{0}AddInstantCraftToQueue?gameID={1}&UserID={2}&ItemID={3}&Amount={4}&ItemIngredients={5}", Url, GuidAppID, user.userID, ItemID, Amount, WWW.EscapeURL(JsonConvert.SerializeObject(ItemIngredients)));
+        string url = string.Format("{0}AddInstantCraftToQueue?gameID={1}&UserID={2}&ItemID={3}&Amount={4}&ItemIngredients={5}", Url, GuidAppID, user.userID, ItemID, Amount, WWW.EscapeURL(JsonMapper.ToJson(ItemIngredients)));
 
         WWW www = new WWW(url);
 
@@ -1194,6 +1221,47 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
     #endregion
 
+    #region Item Data Calls
+
+    static public void SaveUserData(string Key, string Value, Action<bool> callback)
+    {
+        string url = string.Format("{0}SaveUserData?appId={1}&UserID={2}&Key={3}&Value={4}", Url, AppID, user.userID, WWW.EscapeURL(Key), WWW.EscapeURL(Value));
+        WWW www = new WWW(url);
+        Get().StartCoroutine(Get().ServiceGetBool(www, callback));
+    }
+
+
+
+    static public void RetriveUserDataValue(string Key, Action<string> callback)
+    {
+        string url = string.Format("{0}RetriveUserDataValue?appId={1}&UserID={2}&Key={3}", Url, AppID, user.userID, WWW.EscapeURL(Key));
+        WWW www = new WWW(url);
+        Get().StartCoroutine(Get().ServiceGetString(www, callback));
+    }
+
+    static public void DeleteUserDateValue(string Key, Action<bool> callback)
+    {
+        string url = string.Format("{0}DeleteUserDateValue?appId={1}&UserID={2}&Key={3}", Url, AppID, user.userID, WWW.EscapeURL(Key));
+        WWW www = new WWW(url);
+        Get().StartCoroutine(Get().ServiceGetBool(www, callback));
+    }
+
+    static public void RetriveAllUserDataValues(Action<Dictionary<string, string>> callback)
+    {
+        string url = string.Format("{0}RetriveAllUserDataValues?appId={1}&UserID={2}", Url, AppID, user.userID);
+        WWW www = new WWW(url);
+        Get().StartCoroutine(Get().ServiceGetDictionary(www, callback));
+    }
+
+    static public void RetriveAllUserDataOfKey(string Key, Action<List<UserDataValue>> callback)
+    {
+        string url = string.Format("{0}RetriveAllUserDataOfKey?appId={1}&UserID={2}&Key={3}", Url, AppID, user.userID, WWW.EscapeURL(Key));
+        WWW www = new WWW(url);
+        Get().StartCoroutine(Get().ServiceUserDataValueResponse(www, callback));
+    }
+
+    #endregion
+
     #region IEnumeratorCalls
 
     IEnumerator ServiceGetString(WWW www, Action<string> callback)
@@ -1203,7 +1271,56 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         // check for errors
         if (www.error == null)
         {
-            callback(serviceConverter.ConvertToString(www.text));
+            try
+            {
+                callback(serviceConverter.ConvertToString(www.text));
+            }
+            catch
+            {
+                Debug.LogError(www.text);
+            }
+        }
+        else
+        {
+            if (onErrorEvent != null) onErrorEvent("Error: " + www.error);
+        }
+    }
+
+    IEnumerator ServiceGetBool(WWW www, Action<bool> callback)
+    {
+        yield return www;
+
+        // check for errors
+        if (www.error == null)
+        {
+            try
+            {
+                callback(serviceConverter.ConvertToBool(www.text));
+            }
+            catch
+            {
+                Debug.LogError(www.text);
+            }
+        }
+        else
+        {
+            if (onErrorEvent != null) onErrorEvent("Error: " + www.error);
+        }
+    }
+
+    IEnumerator ServiceGetDictionary(WWW www, Action<Dictionary<string, string>> callback)
+    {
+        yield return www;
+        if (www.error == null)
+        {
+            try
+            {
+                callback(serviceConverter.ConvertToDictionary(www.text));
+            }
+            catch
+            {             
+                Debug.LogError(www.text);
+            }
         }
         else
         {
@@ -1215,10 +1332,17 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
     {
         yield return www;
 
-        // check for errors
         if (www.error == null)
         {
-            callback(serviceConverter.ConvertToUserInfo(www.text));
+            try
+            {
+                //Debug.Log("User info received: " + www.text);
+                callback(serviceConverter.ConvertToUserInfo(www.text));
+            }
+            catch
+            {
+                Debug.LogError(www.text);
+            }
         }
         else
         {
@@ -1227,13 +1351,21 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         }
     }
 
-
     IEnumerator ServiceCallGetListItemDatas(WWW www, Action<List<ItemData>> callback)
     {
         yield return www;
 
         if (www.error == null)
-            callback(serviceConverter.ConvertToItemDataList(www.text));
+        {
+            try
+            {
+                callback(serviceConverter.ConvertToItemDataList(www.text));
+            }
+            catch
+            {
+                Debug.LogError(www.text);
+            }
+        }
         else
         {
             if (onErrorEvent != null) onErrorEvent("Error: " + www.error);
@@ -1245,7 +1377,16 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         yield return www;
 
         if (www.error == null)
-            callback(serviceConverter.ConvertToStoreItems(www.text));
+        {
+            try
+            {
+                callback(serviceConverter.ConvertToStoreItems(www.text));
+            }
+            catch
+            {
+                Debug.LogError(www.text);
+            }
+        }
         else
         {
             if (onErrorEvent != null) onErrorEvent("Error: " + www.error);
@@ -1257,9 +1398,21 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         yield return www;
 
         if (www.error == null)
-            callback(serviceConverter.ConvertToGuid(www.text));
+        {
+            //Debug.Log("Service get guid: " + www.text);
+
+            try
+            {
+                callback(serviceConverter.ConvertToGuid(www.text));
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Returned text: " + www.text + " Error: " + ex.Message);
+            }
+        }
         else
         {
+			Debug.LogError("Error: " + www.error);
             if (onErrorEvent != null) onErrorEvent("Error: " + www.error);
         }
 
@@ -1271,7 +1424,16 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         yield return www;
 
         if (www.error == null)
-            callback(serviceConverter.ConvertToListRecipeInfo(www.text));
+        {
+            try
+            {
+                callback(serviceConverter.ConvertToListRecipeInfo(www.text));
+            }
+            catch
+            {
+                Debug.LogError(www.text);
+            }
+        }
         else
         {
             if (onErrorEvent != null) onErrorEvent("Error: " + www.error);
@@ -1284,15 +1446,22 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
         if (www.error == null)
         {
-            Debug.Log(www.text);
-            List<ItemBundle> itemBundles = serviceConverter.ConvertToListItemBundle(www.text);
-            if (OnStoreItemBundleListLoaded != null)
+            try
             {
-                OnStoreItemBundleListLoaded(itemBundles);
-            }
+                //Debug.Log(www.text);
+                List<ItemBundle> itemBundles = serviceConverter.ConvertToListItemBundle(www.text);
+                if (OnStoreItemBundleListLoaded != null)
+                {
+                    OnStoreItemBundleListLoaded(itemBundles);
+                }
 
-            if (callback != null)
-                callback(itemBundles);
+                if (callback != null)
+                    callback(itemBundles);
+            }
+            catch
+            {
+                Debug.LogError(www.text);
+            }
         }
         else
         {
@@ -1305,7 +1474,14 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         yield return www;
         Debug.Log(www.text);
         if (www.error == null)
-            callback(serviceConverter.ConvertToListPaidCurrencyBundleItem(www.text));
+            try
+            {
+                callback(serviceConverter.ConvertToListPaidCurrencyBundleItem(www.text));
+            }
+            catch
+            {
+                Debug.LogError(www.text);
+            }
         else
         {
             if (onErrorEvent != null) onErrorEvent("Error: " + www.error);
@@ -1319,7 +1495,14 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         // check for errors
         if (www.error == null)
         {
-            callback(serviceConverter.ConvertToMoveMultipleItemsResponse(www.text));
+            try
+            {
+                callback(serviceConverter.ConvertToMoveMultipleItemsResponse(www.text));
+            }
+            catch
+            {
+                Debug.LogError(www.text);
+            }
         }
         else
         {
@@ -1336,7 +1519,14 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         // check for errors
         if (www.error == null)
         {
-            callback(serviceConverter.ConvertToSPLoginResponse(www.text));
+            try
+            {
+                callback(serviceConverter.ConvertToSPLoginResponse(www.text));
+            }
+            catch
+            {
+                Debug.LogError(www.text);
+            }
         }
         else
         {
@@ -1351,7 +1541,37 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         // check for errors
         if (www.error == null)
         {
-            callback(serviceConverter.ConverToConsumeCreditsResponse(www.text));
+            try
+            {
+                callback(serviceConverter.ConverToConsumeCreditsResponse(www.text));
+            }
+            catch
+            {
+                Debug.LogError(www.text);
+            }
+        }
+        else
+        {
+            if (onErrorEvent != null) onErrorEvent("Error: " + www.error);
+        }
+    }
+
+    IEnumerator ServiceUserDataValueResponse(WWW www, Action<List<UserDataValue>> callback)
+    {
+        yield return www;
+
+        // check for errors
+        if (www.error == null)
+        {
+            try
+            {
+                callback(serviceConverter.ConvertToUserDataValueList(www.text));
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+                Debug.LogError(www.text);
+            }
         }
         else
         {
@@ -1435,12 +1655,13 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
     #region Utils
 
+
     /// <summary>
     /// Returns domain from string.
     /// </summary>
     /// <param name="url"></param>
     /// <returns></returns>
-
+    ///
     static public string GetDomain(string url)
     {
         if (url.StartsWith("file://"))

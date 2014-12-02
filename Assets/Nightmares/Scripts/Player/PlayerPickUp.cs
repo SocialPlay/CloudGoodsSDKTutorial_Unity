@@ -1,14 +1,30 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerPickUp : MonoBehaviour {
+
     public ItemContainer itemContainer;
+
+    PlayerExperience playerExp;
+
+    void Start()
+    {
+        playerExp = GetComponent<PlayerExperience>();
+    }
 
     void OnTriggerEnter(Collider dropItem)
     {
-        if (dropItem.CompareTag("DropItem"))
+        switch (dropItem.tag)
         {
-            PickUpItem(dropItem.gameObject);
+            case "DropItem":
+                PickUpItem(dropItem.gameObject);
+                break;
+            case "XpDrop":
+                PickUpExperience(dropItem.gameObject);
+                break;
+            default:
+                break;
         }
     }
 
@@ -19,5 +35,12 @@ public class PlayerPickUp : MonoBehaviour {
         ItemContainerManager.MoveItem(itemData, null, itemContainer);
 
         Destroy(itemObject);
+    }
+
+    void PickUpExperience(GameObject xpObject)
+    {
+        playerExp.AddExperience();
+
+        xpObject.GetComponent<DroppedExperience>().ReceivedExperience();
     }
 }

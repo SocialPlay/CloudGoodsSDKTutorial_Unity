@@ -19,7 +19,8 @@ public class BuildPlatform : MonoBehaviour
         Android = 3,
         IOS = 4,
         CloudGoodsStandAlone = 6,
-        Unknown = 7
+        Unknown = 7,
+        EditorTestPurchasing = 8
     }
 
     private static BuildPlatform instance;
@@ -48,6 +49,9 @@ public class BuildPlatform : MonoBehaviour
 #elif UNITY_ANDROID
                 selected = BuildPlatformType.Android;
 #endif
+#if UNITY_EDITOR
+                selected = BuildPlatformType.EditorTestPurchasing;
+#endif
             }
             else
             {
@@ -60,6 +64,7 @@ public class BuildPlatform : MonoBehaviour
             selected = value;
             if (OnBuildPlatformFound != null)
             {
+                Debug.Log("Setting build platform to " + selected.ToString());
                 OnBuildPlatformFound(selected);
             }
         }
