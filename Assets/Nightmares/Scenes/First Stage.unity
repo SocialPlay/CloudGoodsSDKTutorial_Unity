@@ -3777,6 +3777,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0128e7ce2afb90d4e8a350a507832dda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelUserDataKey: lvl
+  experienceUserDataKey: xp
+  highScoreUserDataKey: highScore
 --- !u!4 &491336634
 Transform:
   m_ObjectHideFlags: 0
@@ -10487,7 +10490,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1463357594}
   m_HandleRect: {fileID: 1463357593}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -12272,6 +12275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac08fd58be25ad048824f22840850a3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highScoreUserDataKey: highScore
   loadingText: {fileID: 2105688840}
   playerScores: []
   scoreSlots:
@@ -15751,45 +15755,6 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 842232320}
   m_GameObject: {fileID: 1590188577}
---- !u!1 &1599121819
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1599121821}
-  - 114: {fileID: 1599121820}
-  m_Layer: 0
-  m_Name: Test User Login
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1599121820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1599121819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55d8acd60bb96924395e37bb9bdc69b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1599121821
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1599121819}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
 --- !u!1 &1611161886
 GameObject:
   m_ObjectHideFlags: 0
@@ -16606,6 +16571,45 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1712414649}
+--- !u!1 &1714622401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1714622403}
+  - 114: {fileID: 1714622402}
+  m_Layer: 0
+  m_Name: Test User Login
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1714622402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1714622401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55d8acd60bb96924395e37bb9bdc69b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1714622403
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1714622401}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
 --- !u!1 &1717466283
 GameObject:
   m_ObjectHideFlags: 0

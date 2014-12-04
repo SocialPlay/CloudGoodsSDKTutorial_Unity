@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class TopScoreManager : MonoBehaviour
 {
+    public string highScoreUserDataKey = "highScore";
     public Text loadingText;
 
     public List<PlayerScore> playerScores = new List<PlayerScore>();
@@ -27,11 +28,12 @@ public class TopScoreManager : MonoBehaviour
 
     void InitializeTopScores()
     {
-        CloudGoods.RetrieveAllUserDataOfKey("highScore", ReceivedAllUserData);
+        CloudGoods.RetrieveAllUserDataOfKey(highScoreUserDataKey, ReceivedAllUserData);
     }
 
     void ReceivedAllUserData(List<UserDataValue> userData)
     {
+        Debug.Log("got all users high score data");
         if (userData == null) return;
 
         foreach (UserDataValue item in userData)

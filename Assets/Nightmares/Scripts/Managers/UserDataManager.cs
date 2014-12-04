@@ -5,6 +5,15 @@ public class UserDataManager : MonoBehaviour
 {
     public static event System.Action<PlayerData> UserDataReady;
 
+    public string levelUserDataKey = "lvl";
+    static string LevelUserDataKey = "lvl";
+
+    public string experienceUserDataKey = "xp";
+    static string ExperienceUserDataKey = "xp";
+
+    public string highScoreUserDataKey = "highScore";
+    static string HighScoreUserDataKey = "highScore";
+
     int dataPlayerLevel = 1;
     int dataPlayerExperience = 0;
     int dataPlayerScore = 0;
@@ -15,14 +24,15 @@ public class UserDataManager : MonoBehaviour
 
     void OnLevelWasLoaded(int level)
     {
-        GameObject testUserLogin = GameObject.Find("Test User Login");
-        if (testUserLogin != null) Destroy(testUserLogin);
-
         InitializeUserData();
     }
 
     void Awake()
     {
+        LevelUserDataKey = levelUserDataKey;
+        ExperienceUserDataKey = experienceUserDataKey;
+        HighScoreUserDataKey = highScoreUserDataKey;
+
         CloudGoods.OnUserAuthorized += CloudGoods_OnUserAuthorized;
     }
 
@@ -33,9 +43,9 @@ public class UserDataManager : MonoBehaviour
 
     void InitializeUserData()
     {
-        CloudGoods.RetrieveUserDataValue("lvl", ReceivedUserLevel);
-        CloudGoods.RetrieveUserDataValue("xp", ReceivedUserExperience);
-        CloudGoods.RetrieveUserDataValue("highScore", ReceivedUserHighScore);
+        CloudGoods.RetrieveUserDataValue(levelUserDataKey, ReceivedUserLevel);
+        CloudGoods.RetrieveUserDataValue(experienceUserDataKey, ReceivedUserExperience);
+        CloudGoods.RetrieveUserDataValue(highScoreUserDataKey, ReceivedUserHighScore);
     }
 
     void ReceivedUserLevel(string lvl)
@@ -44,7 +54,7 @@ public class UserDataManager : MonoBehaviour
 
         if (string.IsNullOrEmpty(lvl))
         {
-            CloudGoods.SaveUserData("lvl", "1", null);
+            CloudGoods.SaveUserData(levelUserDataKey, "1", null);
         }
         else
         {
@@ -61,7 +71,7 @@ public class UserDataManager : MonoBehaviour
 
         if (string.IsNullOrEmpty(xp))
         {
-            CloudGoods.SaveUserData("xp", "0", null);
+            CloudGoods.SaveUserData(experienceUserDataKey, "0", null);
         }
         else
         {
@@ -78,7 +88,7 @@ public class UserDataManager : MonoBehaviour
 
         if (string.IsNullOrEmpty(hiScore))
         {
-            CloudGoods.SaveUserData("highScore", "0", null);
+            CloudGoods.SaveUserData(highScoreUserDataKey, "0", null);
         }
         else
         {
@@ -114,17 +124,17 @@ public class UserDataManager : MonoBehaviour
 
     public static void SaveUserHighestScore(string score)
     {
-        CloudGoods.SaveUserData("highScore", score, null);
+        CloudGoods.SaveUserData(HighScoreUserDataKey, score, null);
     }
 
     public static void SaveUserLevel(string level)
     {
-        CloudGoods.SaveUserData("lvl", level, null);
+        CloudGoods.SaveUserData(LevelUserDataKey, level, null);
     }
 
     public static void SaveUserExperience(string experience)
     {
-        CloudGoods.SaveUserData("xp", experience, null);
+        CloudGoods.SaveUserData(ExperienceUserDataKey, experience, null);
     }
 }
 

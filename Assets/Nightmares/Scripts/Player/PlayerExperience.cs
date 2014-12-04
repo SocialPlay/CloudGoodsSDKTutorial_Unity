@@ -95,11 +95,11 @@ public class PlayerExperience : MonoBehaviour
 
     public void AddExperience()
     {
-        int randomModifier = Random.Range(1, 10);
-        int receivedXPModifier = level;
-        int amount = receivedXPModifier * randomModifier;
+        float randomModifier = Random.Range(1, 10);
+        float secondRandomModifier = Random.Range(0.1f, 1.0f);
+        float amount = secondRandomModifier * randomModifier;
 
-        totalExperience += Mathf.RoundToInt(amount / 2);
+        totalExperience += Mathf.CeilToInt(amount);
 
         PlayerStatsManager.SetExperience(totalExperience + " / " + playerXp.maxValue);
     }

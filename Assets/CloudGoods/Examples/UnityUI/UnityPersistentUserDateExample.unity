@@ -399,7 +399,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '...Recived Value...'
+  m_Text: '...Recieved Value...'
 --- !u!222 &401521447
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -798,7 +798,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '...Recived Value...'
+  m_Text: '...Recieved Value...'
 --- !u!222 &681433937
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1101,7 +1101,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 916662988}
-        m_MethodName: RetriveAllUserDataOfKey
+        m_MethodName: RetrieveAllUserDataOfKey
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1218,7 +1218,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '...Recived Value...'
+  m_Text: '...Recieved Value...'
 --- !u!222 &872265379
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1396,13 +1396,13 @@ MonoBehaviour:
   SaveKey: {fileID: 1838186717}
   SaveValue: {fileID: 1435231765}
   saveResponse: {fileID: 1366248942}
-  RetriveKey: {fileID: 702442121}
+  RetrieveKey: {fileID: 702442121}
   loadResponse: {fileID: 872265378}
   DeleteKey: {fileID: 1132939451}
   DeleteResponse: {fileID: 2104719229}
-  RetriveAllUserResponse: {fileID: 401521446}
-  RetriveAllValuesOfKey: {fileID: 1256088319}
-  RetriveAllValuesOfKeyResponse: {fileID: 681433936}
+  RetrieveAllUserResponse: {fileID: 401521446}
+  RetrieveAllValuesOfKey: {fileID: 1256088319}
+  RetrieveAllValuesOfKeyResponse: {fileID: 681433936}
 --- !u!1 &926959036
 GameObject:
   m_ObjectHideFlags: 0
@@ -1528,7 +1528,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Retrive All Users Values
+  m_Text: Retrieve All Users Values
 --- !u!222 &994084710
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2657,7 +2657,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Retrive Value for User
+  m_Text: Retrieve Value for User
 --- !u!222 &1599509307
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2831,7 +2831,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 916662988}
-        m_MethodName: RetriveAllUsersData
+        m_MethodName: RetrieveAllUsersData
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3453,7 +3453,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Retrive All Values of Key
+  m_Text: Retrieve All Values of Key
 --- !u!222 &1964673189
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3519,7 +3519,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '...Recived Value...'
+  m_Text: '...Recieved Value...'
 --- !u!222 &2104719230
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3602,7 +3602,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 916662988}
-        m_MethodName: RetriveUserDataValue
+        m_MethodName: RetrieveUserDataValue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

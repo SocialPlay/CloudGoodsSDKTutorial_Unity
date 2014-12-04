@@ -11,7 +11,7 @@ public class PersistantUserDataExample : MonoBehaviour
     public InputField SaveValue;
     public Text saveResponse;
 
-    public InputField RetriveKey;
+    public InputField RetrieveKey;
     public Text loadResponse;
 
     public InputField DeleteKey;
@@ -19,7 +19,7 @@ public class PersistantUserDataExample : MonoBehaviour
 
     public Text RetrieveAllUserResponse;
 
-    public InputField RetriveAllValuesOfKey;
+    public InputField RetrieveAllValuesOfKey;
     public Text RetrieveAllValuesOfKeyResponse;
 
 
@@ -51,7 +51,7 @@ public class PersistantUserDataExample : MonoBehaviour
     public void RetrieveUserDataValue()
     {
         //Guid userID, string key
-        CloudGoods.RetrieveUserDataValue(RetriveKey.text, (r) => { loadResponse.text = r; });
+        CloudGoods.RetrieveUserDataValue(RetrieveKey.text, (r) => { loadResponse.text = r; });
     }
 
     public void DeleteUserDateValue()
@@ -74,7 +74,8 @@ public class PersistantUserDataExample : MonoBehaviour
 
     public void RetrieveAllUserDataOfKey()
     {
-        CloudGoods.RetrieveAllUserDataOfKey(RetriveAllValuesOfKey.text, (r) =>
+        Debug.Log(RetrieveAllValuesOfKey.text);
+        CloudGoods.RetrieveAllUserDataOfKey(RetrieveAllValuesOfKey.text, (r) =>
         {
             RetrieveAllValuesOfKeyResponse.text = "";
             for (int i = 0; i < r.Count; i++)
