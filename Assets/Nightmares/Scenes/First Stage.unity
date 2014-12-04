@@ -2154,6 +2154,7 @@ GameObject:
   - 114: {fileID: 359387158}
   - 114: {fileID: 359387157}
   - 114: {fileID: 359387160}
+  - 114: {fileID: 359387161}
   m_Layer: 5
   m_Name: Power Slot
   m_TagString: Untagged
@@ -2239,6 +2240,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classIDList: db100000
   IsExcluded: 0
+--- !u!114 &359387161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 359387155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa04474d89dc38439042cf3c9dee6e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerXp: {fileID: 2023876518}
 --- !u!1 &363240846
 GameObject:
   m_ObjectHideFlags: 0
@@ -6866,7 +6879,8 @@ Prefab:
       propertyPath: m_Size
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11400028, guid: 28f2c7142fd7fca498fddcb0d13d0584, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 28f2c7142fd7fca498fddcb0d13d0584, type: 2}
   m_RootGameObject: {fileID: 436960945}
   m_IsPrefabParent: 0
@@ -10372,7 +10386,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1463357594}
   m_HandleRect: {fileID: 1463357593}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -10741,7 +10755,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 1285030124}
   - 114: {fileID: 1285030125}
-  - 114: {fileID: 1285030126}
   m_Layer: 5
   m_Name: ItemPersistency
   m_TagString: Untagged
@@ -10776,18 +10789,6 @@ MonoBehaviour:
   Container: {fileID: 436960948}
   OwnerType: 2
   Location: 0
---- !u!114 &1285030126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400028, guid: 28f2c7142fd7fca498fddcb0d13d0584,
-    type: 2}
-  m_PrefabInternal: {fileID: 828684778}
-  m_GameObject: {fileID: 1285030123}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16b8ab3b7ae9d074698b3c7fddd1f33c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1286334881
 Prefab:
   m_ObjectHideFlags: 0
@@ -15163,6 +15164,7 @@ MonoBehaviour:
   damagePerShot: 20
   timeBetweenBullets: .150000006
   range: 100
+  powerSlot: {fileID: 359387159}
 --- !u!1 &1538859399
 GameObject:
   m_ObjectHideFlags: 0
@@ -18009,6 +18011,10 @@ Prefab:
       propertyPath: playerStatsManager
       value: 
       objectReference: {fileID: 1348239961}
+    - target: {fileID: 11400000, guid: 4e5a0d387dc27394b81600988ad0216f, type: 2}
+      propertyPath: powerSlot
+      value: 
+      objectReference: {fileID: 359387159}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4e5a0d387dc27394b81600988ad0216f, type: 2}
   m_RootGameObject: {fileID: 2023876509}
