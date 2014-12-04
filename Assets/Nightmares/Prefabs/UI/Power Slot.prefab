@@ -451,7 +451,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Cannot equip, you do not meet the level requirement.
+  m_Text: You don't have the required level to equip this power up.
 --- !u!222 &22200000
 CanvasRenderer:
   m_ObjectHideFlags: 1
