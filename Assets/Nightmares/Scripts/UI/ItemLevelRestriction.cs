@@ -4,6 +4,7 @@ using System.Collections;
 public class ItemLevelRestriction : MonoBehaviour, IContainerRestriction
 {
     public PlayerExperience playerXp;
+    public LevelRequirementMessage lvReqMessage;
 
     ItemContainer restrictedContainer;
 
@@ -20,19 +21,17 @@ public class ItemLevelRestriction : MonoBehaviour, IContainerRestriction
     {
         if (itemData.stats.TryGetValue(lvReqKey, out levelRequired))
         {
-            Debug.Log(string.Format("player level: {0}, level required: {1}", playerXp.level, levelRequired));
-
             if (playerXp.level >= levelRequired)
             {
                 return true;
             }
 
-            Debug.Log("Level does not match, level needed: " + levelRequired);
+            //display message.
+            lvReqMessage.DisplayMessage();
+
             return false;
         }
-        else
-        {
-            return true;
-        }
+        
+        return true;
     }
 }
