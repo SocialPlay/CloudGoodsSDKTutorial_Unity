@@ -15,7 +15,7 @@ GameObject:
   - 114: {fileID: 11400014}
   - 114: {fileID: 11400008}
   m_Layer: 5
-  m_Name: UnityUIContainerItem
+  m_Name: Nightmare Container Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25e6d3cbdf99bca4599b5c75ad7242e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayOptions: 000000000100000004000000
+  displayOptions: 0000000001000000
   isQualityColorUsed: 1
   ShowBlankLineForEmptySelection: 0
 --- !u!114 &11400016

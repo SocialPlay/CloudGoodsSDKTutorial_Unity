@@ -12,6 +12,13 @@ using System.Security.Cryptography;
 
 public class CloudGoods : MonoBehaviour//, IServiceCalls
 {
+    private enum TokenType
+    {
+        GiveItem = 1,
+        SetUserData = 2,
+        DeleteUserData = 3
+    }
+
     #region Global Events/Callbacks
 
     static public event Action<string> onErrorEvent;
@@ -346,11 +353,11 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         if (OnUserAuthorized != null)
             OnUserAuthorized(user);
 
-        //Debug.Log ("get session before");
+        Debug.Log("get session before");
 
         CloudGoods.RegisterGameSession(1, (Guid sessionGuid) =>
         {
-            //Debug.Log("Register game session finished: " + sessionGuid);
+            Debug.Log("Register game session finished: " + sessionGuid);
             user.sessionID = sessionGuid;
             if (OnRegisteredUserToSession != null) OnRegisteredUserToSession(user.userID.ToString());
         });
@@ -576,7 +583,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
     static public void MoveItemStack(Guid StackToMove, int MoveAmount, string DestinationOwnerID, string DestinationOwnerType, int DestinationLocation, Action<Guid> callback)
     {
-        //Debug.Log("Stack to move: " + StackToMove + " move amount: " + MoveAmount);
+        Debug.Log("Stack to move: " + StackToMove + " move amount: " + MoveAmount);
 
         string url = string.Format("{0}MoveItemStack?StackToMove={1}&MoveAmount={2}&DestinationOwnerID={3}&DestinationOwnerType={4}&AppID={5}&DestinationLocation={6}", Url, StackToMove, MoveAmount, DestinationOwnerID, DestinationOwnerType, GuidAppID, DestinationLocation);
         WWW www = new WWW(url);
@@ -642,7 +649,17 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
     static public void GiveOwnerItems(string ownerID, WebModels.OwnerTypes OwnerType, List<WebModels.ItemsInfo> listOfItems, Action<string> callback)
     {
-        GetToken(ownerID, "1", listOfItems, callback);
+        GetToken(TokenType.GiveItem, (token) =>
+        {
+            GiveOwnerItemWebserviceRequest request = new GiveOwnerItemWebserviceRequest();
+            request.listOfItems = listOfItems;
+            request.ownerID = ownerID;
+            request.appID = AppID;
+            request.OwnerType = WebModels.OwnerTypes.User;
+
+            string newStringRequest = JsonMapper.ToJson(request);
+            SecureCall(token, newStringRequest, callback);
+        });
     }
 
     #endregion
@@ -662,7 +679,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
     {
         string url = Url + "RegisterSession?UserId=" + user.userID + "&AppID=" + AppID.Trim() + "&InstanceId=" + instanceID;
 
-        //Debug.Log (url);
+        Debug.Log(url);
 
         WWW www = new WWW(url);
 
@@ -1095,7 +1112,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
         WWW www = new WWW(url);
 
-		Debug.Log ("URL get credit bundles:" + url);
+        Debug.Log("URL get credit bundles:" + url);
 
         Get().StartCoroutine(Get().ServiceGetCreditBundles(www, callback));
     }
@@ -1106,11 +1123,11 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
         WWW www = new WWW(url);
 
-		Debug.Log ("Purchase bundles url: " + url);
+        Debug.Log("Purchase bundles url: " + url);
 
         Get().StartCoroutine(Get().ServiceGetString(www, (string message) =>
         {
-			Debug.Log("PUrchase credit bundles callback: : " + message);
+            Debug.Log("PUrchase credit bundles callback: : " + message);
             JsonData response = LitJson.JsonMapper.ToObject(message);
 
             GetStandardCurrencyBalance(0, null);
@@ -1119,17 +1136,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         }));
     }
 
-    static public void GetToken(string ownerID, string tokenType, List<WebModels.ItemsInfo> items, Action<string> callback)
-    {
-        string url = Url + "GetToken?appID=" + AppID + "&payload=" + WWW.EscapeURL(EncryptStringUnity(tokenType));
 
-        WWW www = new WWW(url);
-
-        Get().StartCoroutine(Get().ServiceGetString(www, (x) =>
-        {
-            SecureCall(DecryptString(AppSecret, x.Replace("\\", "")), ownerID, items, callback);
-        }));
-    }
 
     /// <summary>
     /// Search store items with given string.
@@ -1154,32 +1161,6 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         return filteredStoreItems;
     }
 
-    static public void SecureCall(string token, string ownerID, List<WebModels.ItemsInfo> items, Action<string> callback)
-    {
-        GiveOwnerItemWebserviceRequest request = new GiveOwnerItemWebserviceRequest();
-        request.listOfItems = items;
-        request.ownerID = ownerID;
-        request.appID = AppID;
-        request.OwnerType = WebModels.OwnerTypes.User;
-
-        string newStringRequest = JsonMapper.ToJson(request);
-
-        SecurePayload payload = new SecurePayload();
-        payload.token = token;
-        payload.data = newStringRequest;
-
-        string securePayloadString = JsonMapper.ToJson(payload);
-
-        Debug.Log(securePayloadString);
-
-        string url = Url + "SecureAction?appID=" + AppID + "&payload=" + WWW.EscapeURL(EncryptStringUnity(securePayloadString));
-
-        WWW www = new WWW(url);
-
-
-
-        Get().StartCoroutine(Get().ServiceGetString(www, callback));
-    }
 
     #endregion
 
@@ -1221,44 +1202,84 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
     #endregion
 
-    #region Item Data Calls
+    #region User Data Calls
 
-    static public void SaveUserData(string Key, string Value, Action<bool> callback)
+    static public void SaveUserData(string Key, string Value, Action<string> callback)
     {
-        string url = string.Format("{0}SaveUserData?appId={1}&UserID={2}&Key={3}&Value={4}", Url, AppID, user.userID, WWW.EscapeURL(Key), WWW.EscapeURL(Value));
-        WWW www = new WWW(url);
-        Get().StartCoroutine(Get().ServiceGetBool(www, callback));
+        SaveUserData(Key, Value, callback, user.userID);
+    }
+
+    static public void SaveUserData(string Key, string Value, Action<string> callback, Guid AlternateUserID)
+    {
+        GetToken(TokenType.SetUserData, (token) =>
+        {
+            SaveUserDataRequest payload = new SaveUserDataRequest();
+            payload.Key = Key;
+            payload.UserID = AlternateUserID.ToString();
+            payload.Value = Value;
+            string newStringRequest = JsonMapper.ToJson(payload);
+            SecureCall(token, newStringRequest, callback);
+        });
     }
 
 
-
-    static public void RetriveUserDataValue(string Key, Action<string> callback)
+    static public void RetrieveUserDataValue(string Key, Action<string> callback)
     {
-        string url = string.Format("{0}RetriveUserDataValue?appId={1}&UserID={2}&Key={3}", Url, AppID, user.userID, WWW.EscapeURL(Key));
+        RetrieveUserDataValue(Key, callback, user.userID);
+    }
+
+    static public void RetrieveUserDataValue(string Key, Action<string> callback, Guid AlternateUserID)
+    {
+        string url = string.Format("{0}RetriveUserDataValue?appId={1}&UserID={2}&Key={3}", Url, AppID, AlternateUserID, WWW.EscapeURL(Key));
         WWW www = new WWW(url);
         Get().StartCoroutine(Get().ServiceGetString(www, callback));
     }
 
-    static public void DeleteUserDateValue(string Key, Action<bool> callback)
+
+    static public void DeleteUserDataValue(string Key, Action<string> callback)
     {
-        string url = string.Format("{0}DeleteUserDateValue?appId={1}&UserID={2}&Key={3}", Url, AppID, user.userID, WWW.EscapeURL(Key));
-        WWW www = new WWW(url);
-        Get().StartCoroutine(Get().ServiceGetBool(www, callback));
+        DeleteUserDataValue(Key, callback, user.userID);
     }
 
-    static public void RetriveAllUserDataValues(Action<Dictionary<string, string>> callback)
+    static public void DeleteUserDataValue(string Key, Action<string> callback, Guid AlternateUserID)
     {
-        string url = string.Format("{0}RetriveAllUserDataValues?appId={1}&UserID={2}", Url, AppID, user.userID);
+        GetToken(TokenType.DeleteUserData, (token) =>
+        {
+            DeleteUserDataRequest payload = new DeleteUserDataRequest();
+            payload.Key = Key;
+            payload.UserID = AlternateUserID.ToString();          
+            string newStringRequest = JsonMapper.ToJson(payload);
+            SecureCall(token, newStringRequest, callback);
+        });   
+    }
+
+
+    static public void RetrieveAllUserDataValues(Action<Dictionary<string, string>> callback)
+    {
+        RetrieveAllUserDataValues(callback, user.userID);
+    }
+
+    static public void RetrieveAllUserDataValues(Action<Dictionary<string, string>> callback, Guid AlternateUserID)
+    {
+        string url = string.Format("{0}RetriveAllUserDataValues?appId={1}&UserID={2}", Url, AppID, AlternateUserID);
         WWW www = new WWW(url);
         Get().StartCoroutine(Get().ServiceGetDictionary(www, callback));
     }
 
-    static public void RetriveAllUserDataOfKey(string Key, Action<List<UserDataValue>> callback)
+
+    static public void RetrieveAllUserDataOfKey(string Key, Action<List<UserDataValue>> callback)
     {
-        string url = string.Format("{0}RetriveAllUserDataOfKey?appId={1}&UserID={2}&Key={3}", Url, AppID, user.userID, WWW.EscapeURL(Key));
+        RetrieveAllUserDataOfKey(Key, callback, user.userID);
+    }
+
+    static public void RetrieveAllUserDataOfKey(string Key, Action<List<UserDataValue>> callback, Guid AlternateUserID)
+    {
+        string url = string.Format("{0}RetriveAllUserDataOfKey?appId={1}&UserID={2}&Key={3}", Url, AppID, AlternateUserID, WWW.EscapeURL(Key));
         WWW www = new WWW(url);
         Get().StartCoroutine(Get().ServiceUserDataValueResponse(www, callback));
     }
+
+
 
     #endregion
 
@@ -1275,9 +1296,10 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
             {
                 callback(serviceConverter.ConvertToString(www.text));
             }
-            catch
+            catch(Exception e)
             {
                 Debug.LogError(www.text);
+                Debug.LogError(e.Message);
             }
         }
         else
@@ -1318,7 +1340,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
                 callback(serviceConverter.ConvertToDictionary(www.text));
             }
             catch
-            {             
+            {
                 Debug.LogError(www.text);
             }
         }
@@ -1336,7 +1358,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         {
             try
             {
-                //Debug.Log("User info received: " + www.text);
+                Debug.Log("User info received: " + www.text);
                 callback(serviceConverter.ConvertToUserInfo(www.text));
             }
             catch
@@ -1399,7 +1421,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
         if (www.error == null)
         {
-            //Debug.Log("Service get guid: " + www.text);
+            Debug.Log("Service get guid: " + www.text);
 
             try
             {
@@ -1412,7 +1434,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         }
         else
         {
-			Debug.LogError("Error: " + www.error);
+            Debug.LogError("Error: " + www.error);
             if (onErrorEvent != null) onErrorEvent("Error: " + www.error);
         }
 
@@ -1448,7 +1470,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         {
             try
             {
-                //Debug.Log(www.text);
+                Debug.Log(www.text);
                 List<ItemBundle> itemBundles = serviceConverter.ConvertToListItemBundle(www.text);
                 if (OnStoreItemBundleListLoaded != null)
                 {
@@ -1702,6 +1724,30 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         }
 
         return url;
+    }
+
+    static public void SecureCall(string token, string Data, Action<string> callback)
+    {
+        SecurePayload payload = new SecurePayload();
+        payload.token = token;
+        payload.data = Data;
+        string securePayloadString = JsonMapper.ToJson(payload);
+        string url = Url + "SecureAction?appID=" + AppID + "&payload=" + WWW.EscapeURL(EncryptStringUnity(securePayloadString));
+        WWW www = new WWW(url);
+        Get().StartCoroutine(Get().ServiceGetString(www, callback));
+    }
+
+    static void GetToken(TokenType tokenType, Action<string> callback)
+    {
+        string url = Url + "GetToken?appID=" + AppID + "&payload=" + WWW.EscapeURL(EncryptStringUnity(((int)tokenType).ToString()));
+        WWW www = new WWW(url);
+        Get().StartCoroutine(Get().ServiceGetString(www, (x) =>
+        {
+            if (callback != null)
+            {          
+                callback(DecryptString(AppSecret, x.Replace("\\", "")));
+            }
+        }));
     }
 
     #endregion

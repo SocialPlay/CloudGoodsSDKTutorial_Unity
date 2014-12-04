@@ -6,20 +6,23 @@ public class PlayerStatsManager : MonoBehaviour
 {
     public Text level;
     public Text experience;
-    public Text highestScore;
+
+    static string levelText = string.Empty;
+    static string experienceText = string.Empty;
 
     void Update()
     {
-        highestScore.text = ScoreManager.highestScore.ToString();
+        level.text = levelText;
+        experience.text = experienceText;
     }
 
-    public void SetLevel(string playerLevel)
+    public static void SetLevel(string playerLevel)
     {
-        level.text = playerLevel;
+        levelText = playerLevel;
     }
 
-    public void SetExperience(string current, string next)
+    public static void SetExperience(string newExperience)
     {
-        experience.text = current + " / " + next;
+        experienceText = newExperience;
     }
 }

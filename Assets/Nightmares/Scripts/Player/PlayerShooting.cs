@@ -6,6 +6,9 @@ public class PlayerShooting : MonoBehaviour
     public float timeBetweenBullets = 0.15f;        // The time between each shot.
     public float range = 100f;                      // The distance the gun can fire.
 
+    public ItemContainer powerSlot;
+
+    ItemData powerData;
 
     float timer;                                    // A timer to determine when to fire.
     Ray shootRay;                                   // A ray from the gun end forwards.
@@ -62,6 +65,18 @@ public class PlayerShooting : MonoBehaviour
 
     void Shoot()
     {
+        //Get item data for damage.
+        if (powerSlot.containerItems.Count > 0)
+        {
+            powerData = powerSlot.containerItems[0];
+            float newDamage = 20;
+
+            if (powerData.stats.TryGetValue("Power", out newDamage))
+            {
+                damagePerShot = Mathf.RoundToInt(newDamage);
+            }
+        }
+
         // Reset the timer.
         timer = 0f;
 

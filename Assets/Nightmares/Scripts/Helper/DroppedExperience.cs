@@ -26,13 +26,13 @@ public class DroppedExperience : MonoBehaviour
         rigidbody.AddForce(force * 10);
     }
 
-    void LateUpdate()
+    void Update()
     {
         if (!timer.IsDone()) return;
 
         if (rigidbody) Destroy(gameObject.rigidbody);
 
-        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 10 * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 15 * Time.deltaTime);
     }
 
     public void ReceivedExperience()

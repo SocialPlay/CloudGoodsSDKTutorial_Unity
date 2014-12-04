@@ -6,10 +6,23 @@ public class PlayerExperience : MonoBehaviour
 {
     public Slider playerXp;
     public Text playerLevel;
-    public PlayerStatsManager playerStatsManager;
 
     public int level = 1;
     public int totalExperience = 0;
+
+    AutoTimer saveXpTimer;
+
+    void Awake()
+    {
+        saveXpTimer = new AutoTimer(60);
+
+        UserDataManager.UserDataReady += UserDataManager_UserDataReady;
+    }
+
+    void UserDataManager_UserDataReady(PlayerData playerData)
+    {
+        InitializePlayerExperience(playerData);
+    }
 
     void Update()
     {
@@ -24,6 +37,41 @@ public class PlayerExperience : MonoBehaviour
         {
             playerXp.value++;
         }
+
+        if (saveXpTimer.IsDone())
+        {
+            UserDataManager.SaveUserExperience(totalExperience.ToString());
+
+            saveXpTimer.Reset();
+        }
+    }
+
+    void InitializePlayerExperience(PlayerData playerData)
+    {
+        SetPlayerLevel(playerData.level);
+        SetPlayerExperience(playerData.xp);
+    }
+
+    void SetPlayerLevel(int newLevel)
+    {
+        level = newLevel;
+
+        playerXp.maxValue = getNewNextLevelValue(level);
+
+        PlayerStatsManager.SetLevel(level.ToString());
+    }
+
+    void SetPlayerExperience(int newExperience)
+    {
+        totalExperience = newExperience;
+        playerXp.value = totalExperience;
+
+        PlayerStatsManager.SetExperience(totalExperience + " / " + playerXp.maxValue);
+    }
+
+    int getNewNextLevelValue(int receivedLevel)
+    {
+        return receivedLevel * 25;
     }
 
     void LevelUp()
@@ -36,10 +84,13 @@ public class PlayerExperience : MonoBehaviour
 
         level++;
 
-        playerXp.maxValue += (playerXp.maxValue / 2);
+        playerXp.maxValue = getNewNextLevelValue(level);
 
-        playerStatsManager.SetLevel(level.ToString());
-        playerStatsManager.SetExperience(totalExperience.ToString(), playerXp.maxValue.ToString());
+        UserDataManager.SaveUserLevel(level.ToString());
+        UserDataManager.SaveUserExperience(totalExperience.ToString());
+
+        PlayerStatsManager.SetLevel(level.ToString());
+        PlayerStatsManager.SetExperience(totalExperience + " / " + playerXp.maxValue);
     }
 
     public void AddExperience()
@@ -50,6 +101,6 @@ public class PlayerExperience : MonoBehaviour
 
         totalExperience += Mathf.RoundToInt(amount / 2);
 
-        playerStatsManager.SetExperience(totalExperience.ToString(), playerXp.maxValue.ToString());
+        PlayerStatsManager.SetExperience(totalExperience + " / " + playerXp.maxValue);
     }
 }

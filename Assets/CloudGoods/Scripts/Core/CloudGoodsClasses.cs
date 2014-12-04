@@ -200,6 +200,19 @@ public class ConsumeResponse
 #endregion
 
 #region Persistant User Data
+public class SaveUserDataRequest
+{    
+    public string Key;
+    public string Value;
+    public string UserID;
+}
+
+class DeleteUserDataRequest
+{
+    public string Key;
+    public string UserID;
+}
+
 public class UserDataValue
 {
     public User user;

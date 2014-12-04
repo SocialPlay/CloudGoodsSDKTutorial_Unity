@@ -15,7 +15,7 @@ public class ItemDrop : MonoBehaviour
     {
         if (item != null)
         {
-            //Debug.Log("Loading asset :" + item.assetURL.ToRichColor(Color.white));
+            Debug.Log("Loading asset :" + item.assetURL.ToRichColor(Color.white));
             item.AssetBundle((UnityEngine.Object bundleObj) =>
                 {
                     GameObject dropObject = GameObject.Instantiate(bundleObj != null ? bundleObj : dropModelDefault) as GameObject;

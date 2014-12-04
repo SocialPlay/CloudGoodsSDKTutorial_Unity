@@ -193,7 +193,7 @@ public class LitJsonFxJsonObjectConverter : IServiceObjectConverter
 
     public List<StoreItem> ConvertToStoreItems(string dataString)
     {
-        //Debug.Log("Store call: " + dataString);
+        Debug.Log("Store call: " + dataString);
 
         string storeString = ParseString(dataString);
 
@@ -209,13 +209,13 @@ public class LitJsonFxJsonObjectConverter : IServiceObjectConverter
                 {
                     for (int x = 0, xmax = storeItemsJsonArray[i][e].Count; x < xmax; x++)
                     {
-                        //Debug.Log("storeItem " + storeItemsJsonArray[i][e][x]);
+                        Debug.Log("storeItem " + storeItemsJsonArray[i][e][x]);
                     }
                 }
             }
             StoreItem storeItemInfo = new StoreItem();
             storeItemInfo.addedDate = DateTime.Parse(storeItemsJsonArray[i]["AddDate"].ToString());
-            //Debug.Log("Added date: " + storeItemInfo.addedDate.ToString());
+            Debug.Log("Added date: " + storeItemInfo.addedDate.ToString());
             storeItemInfo.ID = int.Parse(storeItemsJsonArray[i]["ID"].ToString());
             storeItemInfo.itemName = storeItemsJsonArray[i]["Name"].ToString();
             storeItemInfo.itemID = int.Parse(storeItemsJsonArray[i]["ItemID"].ToString());
@@ -233,7 +233,7 @@ public class LitJsonFxJsonObjectConverter : IServiceObjectConverter
                 detail.propertyValue = (int)float.Parse(storeItemDetailArray[j]["Value"].ToString());
 
                 //detail.invertEnergy = (bool)storeItemDetailArray[j]["InvertEnergy"];
-                //Debug.Log("storeitem detail : " + detail.propertyName);
+                Debug.Log("storeitem detail : " + detail.propertyName);
                 storeItemDetails.Add(detail);
             }
 
