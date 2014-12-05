@@ -381,6 +381,39 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         Get().StartCoroutine(Get().ServiceCallGetListItemDatas(www, callback));
     }
 
+    static public void NewGenerateItems(int MinimumEnergyOfItem, int TotalEnergyToGenerate, Action<GeneratedItems> callback, string ANDTags = "", string ORTags = "")
+    {
+        if (!isLogged)
+        {
+            Debug.LogWarning("Need to login first to get items.");
+            return;
+        }
+        string url = string.Format("{0}RunItemGenerator?appId={1}&MinimumEnergyOfItem={2}&TotalEnergyToGenerate={3}&andTags={4}&orTags={5}", Url, GuidAppID, MinimumEnergyOfItem, TotalEnergyToGenerate, ANDTags, ORTags);
+
+        WWW www = new WWW(url);
+        Get().StartCoroutine(Get().ServiceGeneratedItemsResponse(www, callback));
+    }
+
+    static public void GiveGeneratedItemToOwner(string ownerType, List<SelectedGenerationItem> selectedItems, int generationID, int location, Action<List<GiveGeneratedItemResult>> callback)
+    {
+        Debug.Log("Here");
+
+        if (!isLogged)
+        {
+            Debug.LogWarning("Need to login first to get items.");
+            return;
+        }
+
+        JsonData selectedItemsJson = JsonMapper.ToJson(selectedItems);
+        
+        Debug.Log("Selected items: " + selectedItemsJson.ToString());
+
+        string url = string.Format("{0}GiveGeneratedItemToOwner?appId={1}&ownerType={2}&ownerId={3}&selectedItems={4}&generationId={5}&location={6}", Url, GuidAppID, ownerType, user.userID, selectedItemsJson.ToString(), generationID, location);
+
+        WWW www = new WWW(url);
+        Get().StartCoroutine(Get().ServiceGiveGenerationItemsToOwnerResponse(www, callback));
+    }
+
     /// <summary>
     /// Loads item list from the specified owner.
     /// </summary>
@@ -1217,6 +1250,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
             payload.Key = Key;
             payload.UserID = AlternateUserID.ToString();
             payload.Value = Value;
+            payload.AppID = AppID;
             string newStringRequest = JsonMapper.ToJson(payload);
             SecureCall(token, newStringRequest, callback);
         });
@@ -1230,7 +1264,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
     static public void RetrieveUserDataValue(string Key, Action<string> callback, Guid AlternateUserID)
     {
-        string url = string.Format("{0}RetriveUserDataValue?appId={1}&UserID={2}&Key={3}", Url, AppID, AlternateUserID, WWW.EscapeURL(Key));
+        string url = string.Format("{0}RetrieveUserDataValue?appId={1}&UserID={2}&Key={3}", Url, AppID, AlternateUserID, WWW.EscapeURL(Key));
         WWW www = new WWW(url);
         Get().StartCoroutine(Get().ServiceGetString(www, callback));
     }
@@ -1247,21 +1281,22 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         {
             DeleteUserDataRequest payload = new DeleteUserDataRequest();
             payload.Key = Key;
-            payload.UserID = AlternateUserID.ToString();          
+            payload.UserID = AlternateUserID.ToString();
+            payload.AppID = AppID;
             string newStringRequest = JsonMapper.ToJson(payload);
             SecureCall(token, newStringRequest, callback);
-        });   
+        });
     }
 
 
-    static public void RetrieveAllUserDataValues(Action<Dictionary<string, string>> callback)
+    static public void RetriveAllUserDataValues(Action<Dictionary<string, string>> callback)
     {
-        RetrieveAllUserDataValues(callback, user.userID);
+        RetriveAllUserDataValues(callback, user.userID);
     }
 
-    static public void RetrieveAllUserDataValues(Action<Dictionary<string, string>> callback, Guid AlternateUserID)
+    static public void RetriveAllUserDataValues(Action<Dictionary<string, string>> callback, Guid AlternateUserID)
     {
-        string url = string.Format("{0}RetriveAllUserDataValues?appId={1}&UserID={2}", Url, AppID, AlternateUserID);
+        string url = string.Format("{0}RetrieveAllUserDataValues?appId={1}&UserID={2}", Url, AppID, AlternateUserID);
         WWW www = new WWW(url);
         Get().StartCoroutine(Get().ServiceGetDictionary(www, callback));
     }
@@ -1274,7 +1309,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
     static public void RetrieveAllUserDataOfKey(string Key, Action<List<UserDataValue>> callback, Guid AlternateUserID)
     {
-        string url = string.Format("{0}RetriveAllUserDataOfKey?appId={1}&UserID={2}&Key={3}", Url, AppID, AlternateUserID, WWW.EscapeURL(Key));
+        string url = string.Format("{0}RetrieveAllUserDataOfKey?appId={1}&UserID={2}&Key={3}", Url, AppID, AlternateUserID, WWW.EscapeURL(Key));
         WWW www = new WWW(url);
         Get().StartCoroutine(Get().ServiceUserDataValueResponse(www, callback));
     }
@@ -1296,7 +1331,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
             {
                 callback(serviceConverter.ConvertToString(www.text));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.LogError(www.text);
                 Debug.LogError(e.Message);
@@ -1601,6 +1636,54 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         }
     }
 
+    IEnumerator ServiceGeneratedItemsResponse(WWW www, Action<GeneratedItems> callback)
+    {
+        yield return www;
+
+        // check for errors
+        if (www.error == null)
+        {
+            try
+            {
+                Debug.Log("Received generated items response: " + www.text);
+                callback(serviceConverter.ConvertToGeneratedItems(www.text));
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+                Debug.LogError(www.text);
+            }
+        }
+        else
+        {
+            if (onErrorEvent != null) onErrorEvent("Error: " + www.error);
+        }
+    }
+
+    IEnumerator ServiceGiveGenerationItemsToOwnerResponse(WWW www, Action<List<GiveGeneratedItemResult>> callback)
+    {
+        yield return www;
+
+        // check for errors
+        if (www.error == null)
+        {
+            try
+            {
+                Debug.Log("Received give generated items response: " + www.text);
+                callback(serviceConverter.ConvertToListGiveGenerationItemResult(www.text));
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+                Debug.LogError(www.text);
+            }
+        }
+        else
+        {
+            if (onErrorEvent != null) onErrorEvent("Error: " + www.error);
+        }
+    }
+
     #endregion
 
     #region Encryption
@@ -1744,7 +1827,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         Get().StartCoroutine(Get().ServiceGetString(www, (x) =>
         {
             if (callback != null)
-            {          
+            {
                 callback(DecryptString(AppSecret, x.Replace("\\", "")));
             }
         }));

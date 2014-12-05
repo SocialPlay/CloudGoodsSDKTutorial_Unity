@@ -485,6 +485,58 @@ public class LitJsonFxJsonObjectConverter : IServiceObjectConverter
         return allValues;
     }
 
+    public GeneratedItems ConvertToGeneratedItems(string dataString)
+    {
+        string parsedString = ParseString(dataString);
+        JsonData dataArray = LitJson.JsonMapper.ToObject(parsedString);
+
+        GeneratedItems generatedItems = new GeneratedItems();
+
+        if (!int.TryParse(dataArray["GenerationId"].ToString(), out generatedItems.GenerationID))
+        {
+             Debug.LogError("GenerationID was not valid");
+             generatedItems.GenerationID = 0;
+        }
+
+        Debug.Log("Convert to generated generatedID: " + dataArray["GenerationId"].ToString());
+
+        ItemDataList itemDataList = new SocialPlay.Data.ItemDataList();
+
+        JsonData itemsData = dataArray["Items"];
+
+        for (int i = 0; i < itemsData.Count; i++)
+        {
+            SocialPlay.Data.ItemData newItemData = new SocialPlay.Data.ItemData();
+            newItemData.Amount = int.Parse(itemsData[i]["Amount"].ToString());
+            newItemData.ItemID = int.Parse(itemsData[i]["ItemID"].ToString());
+            newItemData.Detail = itemsData[i]["Detail"].ToString();
+            newItemData.Name = itemsData[i]["Name"].ToString();
+            newItemData.BaseItemEnergy = int.Parse(itemsData[i]["BaseItemEnergy"].ToString());
+            newItemData.Energy = int.Parse(itemsData[i]["Energy"].ToString());
+            newItemData.Type = int.Parse(itemsData[i]["Type"].ToString());
+            newItemData.Image = itemsData[i]["Image"].ToString();
+            newItemData.Quality = int.Parse(itemsData[i]["Quality"].ToString());
+            newItemData.BaseItemID = int.Parse(itemsData[i]["BaseItemID"].ToString());
+            newItemData.Description = itemsData[i]["Description"].ToString();
+            newItemData.Behaviours = itemsData[i]["Behaviours"].ToString();
+            //newItemData.Tags = itemsData[i]["tags"].ToString();
+
+            itemDataList.Add(newItemData);
+        }
+
+        List<ItemData> items = CloudGoods.itemDataConverter.ConvertItems(itemDataList, generatedItems.GenerationID);
+
+        generatedItems.generatedItems = items;
+
+        return generatedItems;
+        
+    }
+
+    public List<GiveGeneratedItemResult> ConvertToListGiveGenerationItemResult(string dataString)
+    {
+        return new List<GiveGeneratedItemResult>();
+    }
+
     string ParseString(string dataString)
     {
         string parseString = dataString.Remove(0, 1);

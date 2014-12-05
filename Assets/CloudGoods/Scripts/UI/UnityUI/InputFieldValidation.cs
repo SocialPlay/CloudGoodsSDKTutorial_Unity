@@ -18,8 +18,6 @@ public abstract class InputFieldValidation : MonoBehaviour {
     {
         if (Validate(uiInput.text, isSecondcheck))
         {
-            Debug.Log("is valid");
-
             foreach (Text sprite in uiInput.GetComponentsInChildren<Text>())
             {
                 sprite.color = Color.white;
@@ -28,8 +26,6 @@ public abstract class InputFieldValidation : MonoBehaviour {
         }
         else
         {
-            Debug.Log("is not valid");
-
             foreach (Text sprite in uiInput.GetComponentsInChildren<Text>())
             {
                 sprite.color = Color.red;

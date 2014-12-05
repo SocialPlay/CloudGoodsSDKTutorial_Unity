@@ -107,6 +107,8 @@ public class PlayerShooting : MonoBehaviour
             // If the EnemyHealth component exist...
             if (enemyHealth != null)
             {
+                // ... give points.
+                ScoreManager.score += Mathf.RoundToInt(damagePerShot * 0.1f);
                 // ... the enemy should take damage.
                 enemyHealth.TakeDamage(damagePerShot, shootHit.point);
             }

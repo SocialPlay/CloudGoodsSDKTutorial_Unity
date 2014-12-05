@@ -30,6 +30,9 @@ public class ItemData
 
     public bool isLocked = false;
 
+    internal bool IsGenerated = false;
+    internal int GenerationID = 0;
+
     /// <summary>
     /// Visual UI item reference.
     /// </summary>
@@ -156,6 +159,8 @@ public class ItemData
         tags = itemData.tags;
         persistantLocation = itemData.persistantLocation;
         isLocked = itemData.isLocked;
+        GenerationID = itemData.GenerationID;
+        IsGenerated = itemData.IsGenerated;
     }
 }
 

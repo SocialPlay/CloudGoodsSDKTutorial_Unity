@@ -37,4 +37,8 @@ public interface IServiceObjectConverter
 
     List<UserDataValue> ConvertToUserDataValueList(string dataString);
 
+    GeneratedItems ConvertToGeneratedItems(string dataString);
+
+    List<GiveGeneratedItemResult> ConvertToListGiveGenerationItemResult(string dataString);
+
 }

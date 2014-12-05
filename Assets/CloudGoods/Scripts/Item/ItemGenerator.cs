@@ -51,14 +51,15 @@ public class ItemGenerator : MonoBehaviour
 
         }
 
-        CloudGoods.GenerateItemsAtLocation("Session", 0, minEnergy, MaxEnergy, OnReceivedGeneratedItems, andTagsString);
+        //CloudGoods.GenerateItemsAtLocation("Session", 0, minEnergy, MaxEnergy, OnReceivedGeneratedItems, andTagsString);
+        CloudGoods.NewGenerateItems(minEnergy, MaxEnergy, OnReceivedGeneratedItems);
     }
 
-    public void OnReceivedGeneratedItems(List<ItemData> generatedItems)
+    public void OnReceivedGeneratedItems(GeneratedItems generatedItems)
     {
         ReattachToGameObject();
 
-        itemPutter.GetGameItem(generatedItems);
+        itemPutter.GetGameItem(generatedItems.generatedItems);
     }
 
     void ReattachToGameObject()

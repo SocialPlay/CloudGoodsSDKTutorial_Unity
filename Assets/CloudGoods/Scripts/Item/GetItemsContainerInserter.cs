@@ -32,11 +32,36 @@ public class GetItemsContainerInserter : MonoBehaviour, IGetItems
                 onReciveItems(items);
             }
 
+            List<SelectedGenerationItem> giveItems = new List<SelectedGenerationItem>();
+
+            int GenerationID = 0;
+
             foreach (ItemData item in items)
             {
-                ItemContainerManager.MoveItem(item, null, container);               
+                if (item.IsGenerated)
+                    GenerationID = item.GenerationID;
+
+                //ItemContainerManager.MoveItem(item, null, container);        
+
+                Debug.Log("start giving item to user: ID: " + item.ItemID);
+
+                SelectedGenerationItem selectItem = new SelectedGenerationItem();
+
+                selectItem.ItemId = item.ItemID;
+                selectItem.Amount = item.stackSize;
+
+                giveItems.Add(selectItem);
             }
+
+            if(GenerationID != 0)
+                CloudGoods.GiveGeneratedItemToOwner("User", giveItems, GenerationID, container.GetComponentInChildren<PersistentItemContainer>().Location, OnReceivedGiveItemGenerationItemResult);
         }
+    }
+
+    void OnReceivedGiveItemGenerationItemResult(List<GiveGeneratedItemResult> itemResults)
+    {
+        Debug.Log("Finished giving generationItems");
+        container.RefreshContainer();
     }
 
 }

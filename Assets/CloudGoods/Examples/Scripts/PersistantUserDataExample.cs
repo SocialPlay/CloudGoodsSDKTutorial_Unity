@@ -11,16 +11,16 @@ public class PersistantUserDataExample : MonoBehaviour
     public InputField SaveValue;
     public Text saveResponse;
 
-    public InputField RetrieveKey;
+    public InputField RetriveKey;
     public Text loadResponse;
 
     public InputField DeleteKey;
     public Text DeleteResponse;
 
-    public Text RetrieveAllUserResponse;
+    public Text RetriveAllUserResponse;
 
-    public InputField RetrieveAllValuesOfKey;
-    public Text RetrieveAllValuesOfKeyResponse;
+    public InputField RetriveAllValuesOfKey;
+    public Text RetriveAllValuesOfKeyResponse;
 
 
     void Awake()
@@ -41,18 +41,21 @@ public class PersistantUserDataExample : MonoBehaviour
     public void SaveUserData()
     {
         //string key, string value
-        CloudGoods.SaveUserData(SaveKey.text, SaveValue.text, (r) =>
-        {
+        CloudGoods.SaveUserData(SaveKey.text, SaveValue.text, (r) => {
             Debug.Log(r);
             saveResponse.text = r.ToString();
         });
+
+
     }
 
-    public void RetrieveUserDataValue()
+    public void RetriveUserDataValue()
     {
         //Guid userID, string key
-        CloudGoods.RetrieveUserDataValue(RetrieveKey.text, (r) => { loadResponse.text = r; });
+        CloudGoods.RetrieveUserDataValue(RetriveKey.text, (r) => { loadResponse.text = r; });
     }
+
+
 
     public void DeleteUserDateValue()
     {
@@ -60,28 +63,30 @@ public class PersistantUserDataExample : MonoBehaviour
         CloudGoods.DeleteUserDataValue(DeleteKey.text, (r) => { DeleteResponse.text = r; });
     }
 
-    public void RetrieveAllUsersData()
+    public void RetriveAllUsersData()
     {
-        CloudGoods.RetrieveAllUserDataValues((r) =>
+        CloudGoods.RetriveAllUserDataValues((r) =>
         {
-            RetrieveAllUserResponse.text = "";
+            RetriveAllUserResponse.text = "";
             foreach (KeyValuePair<string, string> data in r)
             {
-                RetrieveAllUserResponse.text += data.Key.ToRichColor(Color.white) + ":" + (data.Value != null ? data.Value : "Null") + "\n";
+                RetriveAllUserResponse.text += data.Key.ToRichColor(Color.white) + ":" + (data.Value != null ? data.Value : "Null") + "\n";
             }
+
         });
     }
 
-    public void RetrieveAllUserDataOfKey()
+    public void RetriveAllUserDataOfKey()
     {
-        Debug.Log(RetrieveAllValuesOfKey.text);
-        CloudGoods.RetrieveAllUserDataOfKey(RetrieveAllValuesOfKey.text, (r) =>
-        {
-            RetrieveAllValuesOfKeyResponse.text = "";
+        CloudGoods.RetrieveAllUserDataOfKey(RetriveAllValuesOfKey.text, (r) => {
+            RetriveAllValuesOfKeyResponse.text = "";
             for (int i = 0; i < r.Count; i++)
-            {
-                RetrieveAllValuesOfKeyResponse.text += r[i].user.userName.ToRichColor(Color.white) + " : " + r[i].value + "\n";
+            {             
+                RetriveAllValuesOfKeyResponse.text += r[i].user.userName.ToRichColor(Color.white) + " : " + r[i].value + "\n";
             }
+            //RetriveAllValuesOfKeyResponse.text = r;
         });
     }
+
+
 }

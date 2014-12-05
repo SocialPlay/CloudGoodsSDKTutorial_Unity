@@ -159,6 +159,25 @@ public class StoreItemDetail
     public bool invertEnergy;
 }
 
+public class GeneratedItems
+{
+    public List<ItemData> generatedItems;
+    public int GenerationID;
+}
+
+public class SelectedGenerationItem
+{
+    public int ItemId;
+    public int Amount;
+}
+
+public class GiveGeneratedItemResult
+{
+    public int ItemId;
+    public Guid StackLocationId;
+    public int Amount;
+}
+
 #endregion
 
 #region Recipes
@@ -205,12 +224,14 @@ public class SaveUserDataRequest
     public string Key;
     public string Value;
     public string UserID;
+    public string AppID;
 }
 
 class DeleteUserDataRequest
 {
     public string Key;
     public string UserID;
+    public string AppID;
 }
 
 public class UserDataValue

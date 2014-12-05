@@ -47,6 +47,50 @@ public class GameObjectItemDataConverter : ItemDataConverter
         return convertedItems;
     }
 
+    public override List<ItemData> ConvertItems(ItemDataList generatedItems, int GenerationID)
+    {
+        Debug.Log("Convert items with Generation: " + GenerationID);
+
+        List<ItemData> convertedItems = new List<ItemData>();
+
+        for (int i = 0, imax = generatedItems.Count; i < imax; i++)
+        {
+            SocialPlay.Data.ItemData item = generatedItems[i];
+            //GameObject go = new GameObject();
+            ItemData itemData = new ItemData(); //go.AddComponent<ItemData>();
+            //go.name = item.Name;
+            itemData.baseEnergy = item.BaseItemEnergy;
+
+            //TODO fix behaviour conversion
+            //itemData.behaviours = item.Behaviours;
+
+            itemData.description = item.Description;
+            itemData.itemName = item.Name;
+            itemData.imageName = item.Image;
+            itemData.classID = item.Type;
+            itemData.quality = item.Quality;
+            itemData.salePrice = item.SellPrice;
+            itemData.ItemID = item.ItemID;
+            itemData.CollectionID = int.Parse(item.BaseItemID.ToString());
+            itemData.stackSize = item.Amount;
+            itemData.totalEnergy = item.Energy;
+            itemData.stackID = item.StackLocationID;
+            itemData.stats = ConvertItemDetail(item);
+            itemData.assetURL = item.AssetBundleName;
+            itemData.tags = ConvertTags(item);
+            itemData.persistantLocation = item.Location;
+            itemData.GenerationID = GenerationID;
+            itemData.IsGenerated = true;
+            convertedItems.Add(itemData);
+        }
+
+        Resources.UnloadUnusedAssets();
+
+        ItemComponentInitalizer.InitializeItemWithComponents(convertedItems, AddComponetTo.prefab);
+
+        return convertedItems;
+    }
+
     protected List<String> ConvertTags(SocialPlay.Data.ItemData item)
     {
 
