@@ -2137,10 +2137,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: .5
       objectReference: {fileID: 0}
-    - target: {fileID: 11400016, guid: 33e4f2c0575fb914a94ab2c67712ac21, type: 2}
-      propertyPath: highScoreUserDataKey
-      value: demo
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 33e4f2c0575fb914a94ab2c67712ac21, type: 2}
   m_RootGameObject: {fileID: 1379330854}
@@ -12279,7 +12275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac08fd58be25ad048824f22840850a3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highScoreUserDataKey: demo
+  highScoreUserDataKey: highScore
   loadingText: {fileID: 2105688840}
   playerScores: []
   scoreSlots:

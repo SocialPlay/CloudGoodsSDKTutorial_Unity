@@ -1289,7 +1289,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
     }
 
 
-    static public void RetriveAllUserDataValues(Action<Dictionary<string, string>> callback)
+    static public void RetrieveAllUserDataValues(Action<Dictionary<string, string>> callback)
     {
         RetriveAllUserDataValues(callback, user.userID);
     }
