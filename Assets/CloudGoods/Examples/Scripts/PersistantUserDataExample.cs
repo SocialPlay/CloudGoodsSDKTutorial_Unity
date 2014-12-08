@@ -46,21 +46,20 @@ public class PersistantUserDataExample : MonoBehaviour
     {
         //string key, string value
         CloudGoods.SaveUserData(SaveKey.text, SaveValue.text, (r) => {
-            Debug.Log(r);
-            saveResponse.text = r.ToString();
+            saveResponse.text = string.Format("Value {0} has been stored in {1}", SaveValue.text, SaveKey.text);
         });
     }
 
     public void RetrieveUserDataValue()
     {
         //Guid userID, string key
-        CloudGoods.RetrieveUserDataValue(RetrieveKey.text, (r) => { loadResponse.text = r; });
+        CloudGoods.RetrieveUserDataValue(RetrieveKey.text, (r) => { loadResponse.text = string.Format("Value {0} was retrieved from {1}", r, RetrieveKey.text); });
     }
 
     public void DeleteUserDateValue()
     {
         //Guid userID, string key
-        CloudGoods.DeleteUserDataValue(DeleteKey.text, (r) => { DeleteResponse.text = r; });
+        CloudGoods.DeleteUserDataValue(DeleteKey.text, (r) => { DeleteResponse.text = string.Format("Key {0}, has been deleted", DeleteKey.text); });
     }
 
     public void RetrieveAllUsersData()

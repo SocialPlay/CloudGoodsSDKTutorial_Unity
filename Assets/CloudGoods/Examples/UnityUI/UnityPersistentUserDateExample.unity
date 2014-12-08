@@ -372,7 +372,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 75, y: -175}
-  m_SizeDelta: {x: 150, y: 180}
+  m_SizeDelta: {x: 125, y: 180}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &401521446
 MonoBehaviour:
@@ -771,7 +771,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 75, y: -175}
-  m_SizeDelta: {x: 150, y: 180}
+  m_SizeDelta: {x: 125, y: 180}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &681433936
 MonoBehaviour:
@@ -1191,7 +1191,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 75, y: -175}
-  m_SizeDelta: {x: 150, y: 180}
+  m_SizeDelta: {x: 125, y: 180}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &872265378
 MonoBehaviour:
@@ -2177,8 +2177,8 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: -175}
-  m_SizeDelta: {x: 150, y: 120}
+  m_AnchoredPosition: {x: 75, y: -194}
+  m_SizeDelta: {x: 125, y: 145}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1366248942
 MonoBehaviour:
@@ -2200,12 +2200,12 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 4
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '...'
+  m_Text: '...Stored Key and Value...'
 --- !u!222 &1366248943
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3492,7 +3492,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 75, y: -175}
-  m_SizeDelta: {x: 150, y: 180}
+  m_SizeDelta: {x: 125, y: 180}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &2104719229
 MonoBehaviour:
