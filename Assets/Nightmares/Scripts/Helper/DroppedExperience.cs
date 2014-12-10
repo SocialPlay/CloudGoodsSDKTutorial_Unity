@@ -7,15 +7,6 @@ public class DroppedExperience : MonoBehaviour
 
     AutoTimer timer;
 
-    Vector3 m_centerPosition;
-    float m_degrees = 0;
-    float m_speed = 1;
-    float m_period = 1;
-
-    float count;
-    float speed;
-    float height;
-
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");

@@ -60,7 +60,8 @@ public class CloudGoodsSettingsInspector : Editor
 
     public override void OnInspectorGUI()
     {
-        GUILayout.BeginVertical(GUILayout.Width(spLogo.height));
+        if(spLogo != null)
+            GUILayout.BeginVertical(GUILayout.Width(spLogo.height));
         GUILayout.BeginHorizontal();
         if (spLogo != null) GUILayout.Label(spLogo);
         GUIStyle title = EditorStyles.boldLabel;
@@ -79,7 +80,9 @@ public class CloudGoodsSettingsInspector : Editor
         GUILayout.EndHorizontal();
         GUILayout.EndVertical();
         GUILayout.EndHorizontal();
-        GUILayout.EndVertical();
+
+        if (spLogo != null) 
+            GUILayout.EndVertical();
 
         DrawGUI();
     }

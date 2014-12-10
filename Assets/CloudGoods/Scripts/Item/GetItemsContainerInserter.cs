@@ -61,7 +61,10 @@ public class GetItemsContainerInserter : MonoBehaviour, IGetItems
     void OnReceivedGiveItemGenerationItemResult(List<GiveGeneratedItemResult> itemResults)
     {
         Debug.Log("Finished giving generationItems");
-        container.RefreshContainer();
+        //container.RefreshContainer();
+
+        container.UpdateContainerWithItems(itemResults);
+
     }
 
 }

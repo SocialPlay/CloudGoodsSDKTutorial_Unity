@@ -39,7 +39,6 @@ public class PersistentItemContainer : MonoBehaviour
         return "";
     }
 
-
     #region Loading Items
     protected void RecivedItems(List<ItemData> receivedItems)
     {      
@@ -92,7 +91,6 @@ public class PersistentItemContainer : MonoBehaviour
             {
                 data.stackID = x;
                 data.isLocked = false;
-                //Container.RefreshContainer();
             });
         }
     }
@@ -106,7 +104,6 @@ public class PersistentItemContainer : MonoBehaviour
             {
                 data.stackID = x;
                 data.isLocked = false;
-                //Container.RefreshContainer();
             });
         }
     }
@@ -117,7 +114,7 @@ public class PersistentItemContainer : MonoBehaviour
         {
             CloudGoods.DeductStackAmount(data.stackID, -amount, delegate(string x)
             {
-                //Container.RefreshContainer();
+                data.isLocked = false;
             });
         }
     }

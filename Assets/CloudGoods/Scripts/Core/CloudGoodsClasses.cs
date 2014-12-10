@@ -220,7 +220,7 @@ public class ConsumeResponse
 
 #region Persistant User Data
 public class SaveUserDataRequest
-{    
+{
     public string Key;
     public string Value;
     public string UserID;
@@ -234,7 +234,14 @@ class DeleteUserDataRequest
     public string AppID;
 }
 
-public class UserDataValue
+public class UserDataResponse
+{
+    public bool isExisting;
+    public string userValue;
+    public DateTime lastUpdated;
+}
+
+public class MultipleUserDataValue
 {
     public User user;
     public string value;
@@ -247,7 +254,7 @@ public class UserDataValue
         public string userID;
     }
 
-    public UserDataValue(string userName, int platformID, string platformUserID, string userID, string newValue)
+    public MultipleUserDataValue(string userName, int platformID, string platformUserID, string userID, string newValue)
     {
         user = new User();
         user.userName = userName;
@@ -255,7 +262,7 @@ public class UserDataValue
         user.platformUserID = platformUserID;
         user.userID = userID;
         value = newValue;
-    }       
+    }
 }
 #endregion
 

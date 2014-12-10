@@ -210,15 +210,36 @@ public class ItemContainer : MonoBehaviour
         ClearItemEvent();
     }
 
-
-
-
     public void RefreshContainer()
     {
         if (itemLoader != null)
         {
             itemLoader.LoadItems();
             Clear();
+        }
+    }
+
+    public void UpdateContainerWithItems(List<GiveGeneratedItemResult> givenUserItems)
+    {
+        bool IsItemInContainer = false;
+
+        foreach (GiveGeneratedItemResult givenUserItem in givenUserItems)
+        {
+            IsItemInContainer = false;
+
+            ItemData givenItemData = containerItems.FirstOrDefault(x => x.stackID == givenUserItem.StackLocationId);
+
+            if (givenItemData != null)
+            {
+                Debug.Log("Found item in container: " + givenUserItem.StackLocationId);
+                IsItemInContainer = true;
+                givenItemData.stackSize = givenUserItem.Amount;
+            }
+        }
+
+        if (IsItemInContainer == false)
+        {
+            RefreshContainer();
         }
     }
 }

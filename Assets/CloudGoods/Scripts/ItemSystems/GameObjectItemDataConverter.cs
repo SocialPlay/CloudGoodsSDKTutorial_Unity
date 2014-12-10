@@ -49,8 +49,6 @@ public class GameObjectItemDataConverter : ItemDataConverter
 
     public override List<ItemData> ConvertItems(ItemDataList generatedItems, int GenerationID)
     {
-        Debug.Log("Convert items with Generation: " + GenerationID);
-
         List<ItemData> convertedItems = new List<ItemData>();
 
         for (int i = 0, imax = generatedItems.Count; i < imax; i++)

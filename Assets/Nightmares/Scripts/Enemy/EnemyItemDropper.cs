@@ -63,7 +63,7 @@ public class EnemyItemDropper : MonoBehaviour
 
         int randomModifier = Random.Range(numberOfExperienceDrops - 3, numberOfExperienceDrops + 3);
 
-        for (int i = 0; i < numberOfExperienceDrops; i++)
+        for (int i = 0; i < randomModifier; i++)
         {
             Instantiate(expDropPrefab, dropPos, Quaternion.identity);
         }

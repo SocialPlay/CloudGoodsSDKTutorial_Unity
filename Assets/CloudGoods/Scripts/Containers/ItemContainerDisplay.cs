@@ -55,7 +55,7 @@ public class ItemContainerDisplay : MonoBehaviour
         ItemDataDisplay newDisplay = newItem.GetComponent<ItemDataDisplay>();
         newItem.GetComponent<ItemDataComponent>().itemData = itemData;
         newItem.name = itemData.itemName;
-        newItem.transform.parent = childTarget;
+        newItem.transform.SetParent(childTarget);
         newItem.transform.localPosition = Vector3.zero;
         newItem.transform.localScale = Vector3.one;
         currentDisplayObjects.Add(newDisplay);

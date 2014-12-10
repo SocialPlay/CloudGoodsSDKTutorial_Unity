@@ -48,51 +48,54 @@ public class UserDataManager : MonoBehaviour
         CloudGoods.RetrieveUserDataValue(highScoreUserDataKey, ReceivedUserHighScore);
     }
 
-    void ReceivedUserLevel(string lvl)
+    void ReceivedUserLevel(UserDataResponse receivedUserData)
     {
+        UserDataResponse udr = receivedUserData;
         string loadedLevel = "1";
 
-        if (string.IsNullOrEmpty(lvl))
+        if (string.IsNullOrEmpty(udr.userValue))
         {
             CloudGoods.SaveUserData(levelUserDataKey, "1", null);
         }
         else
         {
-            loadedLevel = lvl;
+            loadedLevel = udr.userValue;
         }
 
         dataPlayerLevel = int.Parse(loadedLevel);
         lvlReady = true;
     }
 
-    void ReceivedUserExperience(string xp)
+    void ReceivedUserExperience(UserDataResponse receivedUserData)
     {
+        UserDataResponse udr = receivedUserData;
         string loadedXP = "0";
 
-        if (string.IsNullOrEmpty(xp))
+        if (string.IsNullOrEmpty(udr.userValue))
         {
             CloudGoods.SaveUserData(experienceUserDataKey, "0", null);
         }
         else
         {
-            loadedXP = xp;
+            loadedXP = udr.userValue;
         }
 
         dataPlayerExperience = int.Parse(loadedXP);
         xpReady = true;
     }
 
-    void ReceivedUserHighScore(string hiScore)
+    void ReceivedUserHighScore(UserDataResponse receivedUserData)
     {
+        UserDataResponse udr = receivedUserData;
         string loadedHighScore = "0";
 
-        if (string.IsNullOrEmpty(hiScore))
+        if (string.IsNullOrEmpty(udr.userValue))
         {
             CloudGoods.SaveUserData(highScoreUserDataKey, "0", null);
         }
         else
         {
-            loadedHighScore = hiScore;
+            loadedHighScore = udr.userValue;
         }
 
         dataPlayerScore = int.Parse(loadedHighScore);
