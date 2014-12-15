@@ -571,12 +571,12 @@ public class LitJsonFxJsonObjectConverter : IServiceObjectConverter
             return new List<GiveGeneratedItemResult>();
         }
     }
-    public UserDataResponse ConvertToUserDataResponse(string dataString)
+    public PersistentDataResponse ConvertToUserDataResponse(string dataString)
     {
         string parsedString = ParseString(dataString);
         JsonData dataArray = LitJson.JsonMapper.ToObject(parsedString);
 
-        UserDataResponse data = new UserDataResponse();
+        PersistentDataResponse data = new PersistentDataResponse();
         data.isExisting = bool.Parse(dataArray["isExisting"].ToString());
         data.userValue = (dataArray["userValue"] != null ? dataArray["userValue"].ToString() : null);
         data.lastUpdated = (dataArray["lastUpdated"] != null ? DateTime.Parse(dataArray["lastUpdated"].ToString()) : DateTime.Now);

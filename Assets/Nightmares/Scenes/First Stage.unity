@@ -18325,10 +18325,10 @@ GameObject:
   - 82: {fileID: 2023876511}
   - 114: {fileID: 2023876516}
   - 114: {fileID: 2023876514}
-  - 114: {fileID: 2023876520}
   - 114: {fileID: 2023876513}
   - 114: {fileID: 2023876519}
   - 114: {fileID: 2023876518}
+  - 114: {fileID: 2023876520}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player

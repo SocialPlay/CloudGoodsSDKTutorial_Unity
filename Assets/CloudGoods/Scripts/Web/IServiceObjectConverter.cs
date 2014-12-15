@@ -41,6 +41,6 @@ public interface IServiceObjectConverter
 
     List<GiveGeneratedItemResult> ConvertToListGiveGenerationItemResult(string dataString);
 
-    UserDataResponse ConvertToUserDataResponse(string dataString);
+    PersistentDataResponse ConvertToUserDataResponse(string dataString);
 
 }

@@ -231,7 +231,6 @@ public class ItemContainer : MonoBehaviour
 
             if (givenItemData != null)
             {
-                Debug.Log("Found item in container: " + givenUserItem.StackLocationId);
                 IsItemInContainer = true;
                 givenItemData.stackSize = givenUserItem.Amount;
             }

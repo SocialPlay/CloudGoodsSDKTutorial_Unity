@@ -57,7 +57,7 @@ public class PlayerPickUp : MonoBehaviour
 
                 float lifeUpPower = GetItemDataStatValue(itemData.stats, "Power");
 
-                playerFX.HealPlayer(Mathf.RoundToInt(lifeUpPower));
+                playerFX.HealPlayer(Mathf.RoundToInt(lifeUpPower / 2));
 
                 Destroy(itemObject);
                 break;
@@ -66,7 +66,7 @@ public class PlayerPickUp : MonoBehaviour
 
                 float speedPower = GetItemDataStatValue(itemData.stats, "Power");
 
-                playerFX.SetPlayerSpeed(speedPower);
+                playerFX.SetPlayerSpeed(speedPower / 2);
 
                 Destroy(itemObject);
                 break;

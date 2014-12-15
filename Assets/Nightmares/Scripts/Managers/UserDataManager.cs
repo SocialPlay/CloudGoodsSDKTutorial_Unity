@@ -48,9 +48,9 @@ public class UserDataManager : MonoBehaviour
         CloudGoods.RetrieveUserDataValue(highScoreUserDataKey, ReceivedUserHighScore);
     }
 
-    void ReceivedUserLevel(UserDataResponse receivedUserData)
+    void ReceivedUserLevel(PersistentDataResponse receivedUserData)
     {
-        UserDataResponse udr = receivedUserData;
+        PersistentDataResponse udr = receivedUserData;
         string loadedLevel = "1";
 
         if (string.IsNullOrEmpty(udr.userValue))
@@ -66,9 +66,9 @@ public class UserDataManager : MonoBehaviour
         lvlReady = true;
     }
 
-    void ReceivedUserExperience(UserDataResponse receivedUserData)
+    void ReceivedUserExperience(PersistentDataResponse receivedUserData)
     {
-        UserDataResponse udr = receivedUserData;
+        PersistentDataResponse udr = receivedUserData;
         string loadedXP = "0";
 
         if (string.IsNullOrEmpty(udr.userValue))
@@ -84,9 +84,9 @@ public class UserDataManager : MonoBehaviour
         xpReady = true;
     }
 
-    void ReceivedUserHighScore(UserDataResponse receivedUserData)
+    void ReceivedUserHighScore(PersistentDataResponse receivedUserData)
     {
-        UserDataResponse udr = receivedUserData;
+        PersistentDataResponse udr = receivedUserData;
         string loadedHighScore = "0";
 
         if (string.IsNullOrEmpty(udr.userValue))

@@ -234,11 +234,24 @@ class DeleteUserDataRequest
     public string AppID;
 }
 
-public class UserDataResponse
+public class PersistentDataResponse
 {
     public bool isExisting;
     public string userValue;
     public DateTime lastUpdated;
+}
+
+public class SaveAppDataRequest
+{
+    public string Key;
+    public string Value;
+    public string AppID;
+}
+
+class DeleteAppDataRequest
+{
+    public string Key;
+    public string AppID;
 }
 
 public class MultipleUserDataValue

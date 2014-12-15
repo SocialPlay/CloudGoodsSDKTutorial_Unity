@@ -41,30 +41,46 @@ public class GetItemsContainerInserter : MonoBehaviour, IGetItems
                 if (item.IsGenerated)
                     GenerationID = item.GenerationID;
 
-                //ItemContainerManager.MoveItem(item, null, container);        
-
-                Debug.Log("start giving item to user: ID: " + item.ItemID);
-
                 SelectedGenerationItem selectItem = new SelectedGenerationItem();
 
                 selectItem.ItemId = item.ItemID;
                 selectItem.Amount = item.stackSize;
 
-                giveItems.Add(selectItem);
+                AddItemToGenerationPackage("User", item.GenerationID, container.GetComponentInChildren<PersistentItemContainer>().Location, selectItem);
             }
-
-            if(GenerationID != 0)
-                CloudGoods.GiveGeneratedItemToOwner("User", giveItems, GenerationID, container.GetComponentInChildren<PersistentItemContainer>().Location, OnReceivedGiveItemGenerationItemResult);
         }
     }
 
-    void OnReceivedGiveItemGenerationItemResult(List<GiveGeneratedItemResult> itemResults)
+    void AddItemToGenerationPackage(string UserType, int GenerationID, int location, SelectedGenerationItem selectedItem)
     {
-        Debug.Log("Finished giving generationItems");
-        //container.RefreshContainer();
+        GenerationItemPackage generationItemPackage = CloudGoods.GenerationPackages.Find(x => x.UserType == UserType && x.GenerationID == GenerationID && x.Location == location);
 
-        container.UpdateContainerWithItems(itemResults);
+        generationItemPackage = CloudGoods.GenerationPackages.Find(x => x.UserType == UserType && x.GenerationID == GenerationID && x.Location == location);
 
+        if (generationItemPackage != null && !generationItemPackage.HasPackageBeenSent())
+        {
+            generationItemPackage.AddItemID(selectedItem);
+        }
+        else
+        {
+            CreateGenerationPackage(UserType, GenerationID, location, selectedItem);
+        }
     }
+
+    void CreateGenerationPackage(string UserType, int GenerationID, int location, SelectedGenerationItem selectedItems)
+    {
+        GameObject packageObj = new GameObject();
+        packageObj.name = "Generation Package : " + GenerationID;
+        GenerationItemPackage generationPackage = packageObj.AddComponent<GenerationItemPackage>();
+
+        generationPackage.UserType = UserType;
+        generationPackage.GenerationID = GenerationID;
+        generationPackage.Location = location;
+        generationPackage.InitializeItemIDs(selectedItems);
+        generationPackage.targetContainer = container;
+
+        CloudGoods.GenerationPackages.Add(generationPackage);
+    }
+
 
 }

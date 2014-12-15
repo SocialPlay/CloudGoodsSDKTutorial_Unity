@@ -14,7 +14,7 @@ public class TopScoreManager : MonoBehaviour
     public List<PlayerScore> playerScores = new List<PlayerScore>();
     public Text[] scoreSlots;
 
-    AutoTimer refreshButtonEnableTimer = new AutoTimer(10);
+    AutoTimer refreshButtonEnableTimer = new AutoTimer(5);
 
     void OnLevelWasLoaded(int scene)
     {
@@ -33,16 +33,18 @@ public class TopScoreManager : MonoBehaviour
 
     void InitializeTopScores()
     {
-        refreshButtonEnableTimer.Reset();
-        refreshScoreButton.interactable = false;
-        refreshButtonAnim.SetTrigger("play");
+        playRefreshAnimation();
 
         CloudGoods.RetrieveAllUserDataOfKey(highScoreUserDataKey, ReceivedAllUserData);
     }
 
     void ReceivedAllUserData(List<MultipleUserDataValue> userData)
     {
-        if (userData == null) return;
+        if (userData == null)
+        {
+            stopRefreshAnimation();
+            return;
+        }
 
         List<MultipleUserDataValue> playerData = userData;
 
@@ -70,7 +72,7 @@ public class TopScoreManager : MonoBehaviour
             playerScores.Add(ps);
         }
 
-        refreshButtonAnim.SetTrigger("stop");
+        stopRefreshAnimation();
 
         if (playerScores.Count < 1)
         {
@@ -94,6 +96,18 @@ public class TopScoreManager : MonoBehaviour
     void SetScoreSlotText(int index, string text)
     {
         scoreSlots[index].text = text;
+    }
+
+    void playRefreshAnimation()
+    {
+        refreshScoreButton.interactable = false;
+        refreshButtonAnim.SetTrigger("play");
+    }
+
+    void stopRefreshAnimation()
+    {
+        refreshButtonEnableTimer.Reset();
+        refreshButtonAnim.SetTrigger("stop");
     }
 
     public void RefreshHighScores()
