@@ -20,6 +20,7 @@ public abstract class StoreLoader : MonoBehaviour
 
     protected void OnStoreListLoaded(List<StoreItem> listItems)
     {
+        Debug.Log("Store Loader, OnStoreListLoaded: " + listItems.Count);
         items = listItems;
         LoadStoreWithPaging(items, 0);
     }
@@ -44,9 +45,11 @@ public abstract class StoreLoader : MonoBehaviour
     }
 
     protected virtual void ClearCurrentGrid()
-    {  
+    {
+        Debug.Log("Clearing current grid");
         foreach (GameObject gridItemObj in currentPageItems)
         {
+            Debug.Log("Destroy: " + gridItemObj);
             Destroy(gridItemObj);
         }
         currentPageItems.Clear();

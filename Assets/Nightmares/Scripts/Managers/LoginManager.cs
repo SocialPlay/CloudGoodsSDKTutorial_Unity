@@ -8,7 +8,6 @@ public class LoginManager : MonoBehaviour {
     public Button logoutButton;
     public Button shopButton;
     public Button startGameButton;
-    public Button buyCreditsButton;
 
     public Text welcomeMessage;
 
@@ -34,7 +33,6 @@ public class LoginManager : MonoBehaviour {
         startGameButton.interactable = true;
         shopButton.interactable = true;
         logoutButton.interactable = true;
-        buyCreditsButton.interactable = true;
     }
 
     void DisableButtons()
@@ -42,7 +40,6 @@ public class LoginManager : MonoBehaviour {
         startGameButton.interactable = false;
         shopButton.interactable = false;
         logoutButton.interactable = false;
-        buyCreditsButton.interactable = false;
     }
 
     public void LogoutPlayer()

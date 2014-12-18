@@ -53,7 +53,7 @@ public class TopScoreManager : MonoBehaviour
 
     void Update()
     {
-        if (refreshButtonEnableTimer.IsDone())
+        if (refreshButtonEnableTimer.IsDone() && !refreshScoreButton.interactable)
         {
             refreshScoreButton.interactable = true;
         }
@@ -100,14 +100,24 @@ public class TopScoreManager : MonoBehaviour
 
     void playRefreshAnimation()
     {
+        Debug.Log("Playing Refresh Animation");
         refreshScoreButton.interactable = false;
-        refreshButtonAnim.SetTrigger("play");
+
+        if (!refreshButtonAnim.IsInTransition(0))
+        {
+            refreshButtonAnim.SetTrigger("play");
+        }
     }
 
     void stopRefreshAnimation()
     {
+        Debug.Log("Stoping Refresh Animation");
         refreshButtonEnableTimer.Reset();
-        refreshButtonAnim.SetTrigger("stop");
+
+        if (!refreshButtonAnim.IsInTransition(0))
+        {
+            refreshButtonAnim.SetTrigger("stop");
+        }
     }
 
     public void RefreshHighScores()

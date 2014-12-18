@@ -217,10 +217,15 @@ public class LitJsonFxJsonObjectConverter : IServiceObjectConverter
             storeItemInfo.addedDate = DateTime.Parse(storeItemsJsonArray[i]["AddDate"].ToString());
             Debug.Log("Added date: " + storeItemInfo.addedDate.ToString());
             storeItemInfo.ID = int.Parse(storeItemsJsonArray[i]["ID"].ToString());
+            Debug.Log("ID: " + storeItemInfo.ID);
             storeItemInfo.itemName = storeItemsJsonArray[i]["Name"].ToString();
+            Debug.Log("itemName: " + storeItemInfo.itemName);
             storeItemInfo.itemID = int.Parse(storeItemsJsonArray[i]["ItemID"].ToString());
+            Debug.Log("itemID: " + storeItemInfo.itemID);
             storeItemInfo.premiumCurrencyValue = int.Parse(storeItemsJsonArray[i]["CreditValue"].ToString());
+            Debug.Log("premiumCurrencyValue: " + storeItemInfo.premiumCurrencyValue);
             storeItemInfo.standardCurrencyValue = int.Parse(storeItemsJsonArray[i]["CoinValue"].ToString());
+            Debug.Log("standardCurrencyValue: " + storeItemInfo.standardCurrencyValue);
 
             JsonData storeItemDetailArray = LitJson.JsonMapper.ToObject(storeItemsJsonArray[i]["Detail"].ToString());
 

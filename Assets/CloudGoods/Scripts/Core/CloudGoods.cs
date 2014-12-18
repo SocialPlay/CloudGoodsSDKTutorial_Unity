@@ -1013,8 +1013,18 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         Get().StartCoroutine(Get().ServiceGetStoreItems(www, (List<StoreItem> items) =>
         {
             storeItems = items;
-            if (OnStoreListLoaded != null) OnStoreListLoaded(storeItems);
-            if (callback != null) callback(storeItems);
+            Debug.Log("CloudGoods, GetStoreItems store items: " + storeItems.Count);
+            if (OnStoreListLoaded != null)
+            {
+                Debug.Log("CloudGoods, GetStoreItems store items OnStoreListLoaded");
+                OnStoreListLoaded(storeItems);
+            }
+
+            if (callback != null)
+            {
+                Debug.Log("CloudGoods, GetStoreItems store items callback");
+                callback(storeItems);
+            }
         }));
     }
 
@@ -1495,6 +1505,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         {
             try
             {
+                Debug.Log("debug for store items: " + www.text);
                 callback(serviceConverter.ConvertToStoreItems(www.text));
             }
             catch

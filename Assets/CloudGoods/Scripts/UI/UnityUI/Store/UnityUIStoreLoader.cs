@@ -21,21 +21,35 @@ public class UnityUIStoreLoader : StoreLoader
         {
             isLoadingPage = true;
 
+            Debug.Log("UnityUIStoreLoader, LoadStoreWithPaging: " + listItems.Count);
             filteredList = listItems;
 
             if (currentPageItems.Count > 0)
+            {
+                Debug.Log("UnityUIStoreLoader, ClearCurrentGrid");
                 ClearCurrentGrid();
+            }
 
+            Debug.Log("UnityUIStoreLoader, Clear currentPageItems");
             currentPageItems.Clear();
 
             int PageMax = GetPageMax(listItems.Count, pageNum);
 
             for (int i = pageNum * maxGridAmount; i < (pageNum * maxGridAmount + PageMax); i++)
             {
-                GameObject newItem = (GameObject)GameObject.Instantiate(itemButtonPrefab);
-                newItem.transform.parent = transform;
+                Debug.Log("UnityUIStoreLoader, Add new items to the grid");
+                GameObject newItem = Instantiate(itemButtonPrefab) as GameObject;
+                Debug.Log("UnityUIStoreLoader, Create new item for the grid");
+                Debug.Log(string.Format("UnityUIStoreLoader, created item: {0}", newItem));
+                Debug.Log("new item transform: " + newItem.transform);
+                //newItem.transform.SetParent(transform);
+                //newItem.transform.parent = transform;
+                Debug.Log("UnityUIStoreLoader, Attach new item to parent.");
                 newItem.transform.localPosition = Vector3.zero;
+                Debug.Log("UnityUIStoreLoader, Set new item local position");
                 newItem.transform.localScale = Vector3.one;
+                Debug.Log("UnityUIStoreLoader, Set new item local scale");
+                Debug.Log("UnityUIStoreLoader, LoadStoreWithPaging newItem: " + newItem);
                 currentPageItems.Add(newItem);
 
                 UnityUIStoreItem itemInfo = newItem.GetComponent<UnityUIStoreItem>();
@@ -45,6 +59,7 @@ public class UnityUIStoreLoader : StoreLoader
                 storeButton.onClick.AddListener(itemInfo.OnStoreItemClicked);
             }
 
+            Debug.Log("LoadStoreWithPaging currentPageItems: " + currentPageItems.Count);
             SetPageButtons(GetPageAmount(listItems.Count));
 
             isLoadingPage = false;

@@ -8,6 +8,7 @@ public class EnemyItemDropper : MonoBehaviour
     public Vector3 dropItemOffsetPosition;
     public int maxDroppedItemEnergy;
     public int numberOfExperienceDrops = 3;
+    public Vector2 itemDropChance = new Vector2(4, 6);
 
     EnemyHealth enemyHealth;
     bool gotItem = false;
@@ -36,7 +37,7 @@ public class EnemyItemDropper : MonoBehaviour
     {
         int dropChance = Random.Range(0, 10);
 
-        if (dropChance <= 1 || dropChance >= 10)
+        if (dropChance <= itemDropChance.x || dropChance >= itemDropChance.y)
         {
             return true;
         }
@@ -65,7 +66,8 @@ public class EnemyItemDropper : MonoBehaviour
 
         for (int i = 0; i < randomModifier; i++)
         {
-            Instantiate(expDropPrefab, dropPos, Quaternion.identity);
+            GameObject xp = Instantiate(expDropPrefab, dropPos, Quaternion.identity) as GameObject;
+            xp.transform.parent = FloatingObjects._transform;
         }
     }
 }

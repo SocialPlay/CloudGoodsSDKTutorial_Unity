@@ -52,6 +52,20 @@ public class PlayerHealth : MonoBehaviour
             damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
         }
 
+        // Set the health bar's value to the current health.
+        if (currentHealth > healthSlider.value)
+        {
+            healthSlider.value++;
+        }
+        else if (currentHealth < healthSlider.value)
+        {
+            healthSlider.value--;
+        }
+        else
+        {
+            healthSlider.value = currentHealth;
+        }
+
         // Reset the damaged flag.
         damaged = false;
     }
@@ -64,9 +78,6 @@ public class PlayerHealth : MonoBehaviour
 
         // Reduce the current health by the damage amount.
         currentHealth -= amount;
-
-        // Set the health bar's value to the current health.
-        healthSlider.value = currentHealth;
 
         // Play the hurt sound effect.
         playerAudio.Play();
