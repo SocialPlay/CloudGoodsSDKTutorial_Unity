@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84caf74c4c68b7f45bf38221ca7646ef, type: 3}
+  m_Name: CloudGoodsSettings
+  m_EditorClassIdentifier: 
+  appID: 0e32f646-8c19-423c-aba1-76a96ee32832
+  appSecret: Ai48FGqNadEBBQ73McvY2SlgxB7lOu
+  screen: 0
+  url: http://webservice.socialplay.com/cloudgoods/cloudgoodsservice.svc/
+  bundlesUrl: https://socialplay.blob.core.windows.net/unityassetbundles/
+  androidKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgmtJfcKVxLCez5lyt75pKa2SZ4Hq/+NTu8PtSRaL0be4Pj7u8qnhH1o9NggiuOUEkqjB35NnDhLW0GQwcf08kXVt9LCvzAFnyAcgPcCAM0XDKoLyw7q7uLrZfu0MU5N0nm48XdpzgQ/FJAtIJ61vZIlsXypjFUbIsuC1YKE3mEY+NGualku9E7Y6bD+/EZ4FB/s3kG1gFNRtbBpmzLBMeq8T0P1pb3oKxCB3PioNyU91yWMgv65qNq9dM32e0TzVoB/k6ofk/FkPwIrb5C4cHWP7tK2iFmVvf1nRyvlnJyKfI5XdrofQXi6HFLY/RBh5RUBRvA5ZpAIkzMi5xnEwEQIDAQAB
+  defaultTexture: {fileID: 2800000, guid: 04e32cc13a24dfe42ae02615ab56c85d, type: 3}
+  defaultItemDrop: {fileID: 100004, guid: 6fe33dfbf2afc0a4caa6c3dcf3768c3a, type: 2}
+  defaultUIItem: {fileID: 100000, guid: 6419fad3fe3caa047a749a09fc691e9a, type: 2}
+  itemInitializerPrefabs:
+  - prefab: {fileID: 100004, guid: d9a3f4c28dc861c40a82f0715995ea48, type: 2}
+    itemFilters:
+    - selectorType: 3
+      isInverted: 0
+      classList: 
+      ItemIDList: cbd80000
+      CollectionIDList: 
+      TagList: []
+      behaviours: []
+  - prefab: {fileID: 100004, guid: e94ab13643f7b44498dbe93a44da3c3c, type: 2}
+    itemFilters:
+    - selectorType: 3
+      isInverted: 0
+      classList: 
+      ItemIDList: ee790800
+      CollectionIDList: 
+      TagList: []
+      behaviours: []
+  - prefab: {fileID: 100004, guid: f2c5c92c09bdb864eb7ae262dd7913de, type: 2}
+    itemFilters:
+    - selectorType: 3
+      isInverted: 0
+      classList: 
+      ItemIDList: cad80000
+      CollectionIDList: 
+      TagList: []
+      behaviours: []
+  - prefab: {fileID: 100004, guid: 8a8b7aa3a0e5eb345a18ed266707538c, type: 2}
+    itemFilters:
+    - selectorType: 3
+      isInverted: 0
+      classList: 
+      ItemIDList: cdd80000
+      CollectionIDList: 
+      TagList: []
+      behaviours: []
+  - prefab: {fileID: 100004, guid: db8bf17d13e44814289946123355a910, type: 2}
+    itemFilters:
+    - selectorType: 3
+      isInverted: 0
+      classList: 
+      ItemIDList: 2dd90000
+      CollectionIDList: 
+      TagList: []
+      behaviours: []
