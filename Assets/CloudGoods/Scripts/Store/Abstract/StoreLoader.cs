@@ -13,9 +13,14 @@ public abstract class StoreLoader : MonoBehaviour
     protected List<GameObject> currentPageItems = new List<GameObject>();
 
     // Use this for initialization
-    protected virtual void Awake()
+    void OnEnable()
     {
         CloudGoods.OnStoreListLoaded += OnStoreListLoaded;
+    }
+
+    void OnDisable()
+    {
+        CloudGoods.OnStoreListLoaded -= OnStoreListLoaded;
     }
 
     protected void OnStoreListLoaded(List<StoreItem> listItems)

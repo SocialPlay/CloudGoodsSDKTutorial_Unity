@@ -203,29 +203,13 @@ public class LitJsonFxJsonObjectConverter : IServiceObjectConverter
 
         for (int i = 0; i < storeItemsJsonArray.Count; i++)
         {
-            for (int e = 0, emax = storeItemsJsonArray[i].Count; e < emax; e++)
-            {
-                if (storeItemsJsonArray[i][e].IsArray)
-                {
-                    for (int x = 0, xmax = storeItemsJsonArray[i][e].Count; x < xmax; x++)
-                    {
-                        Debug.Log("storeItem " + storeItemsJsonArray[i][e][x]);
-                    }
-                }
-            }
             StoreItem storeItemInfo = new StoreItem();
             storeItemInfo.addedDate = DateTime.Parse(storeItemsJsonArray[i]["AddDate"].ToString());
-            Debug.Log("Added date: " + storeItemInfo.addedDate.ToString());
             storeItemInfo.ID = int.Parse(storeItemsJsonArray[i]["ID"].ToString());
-            Debug.Log("ID: " + storeItemInfo.ID);
             storeItemInfo.itemName = storeItemsJsonArray[i]["Name"].ToString();
-            Debug.Log("itemName: " + storeItemInfo.itemName);
             storeItemInfo.itemID = int.Parse(storeItemsJsonArray[i]["ItemID"].ToString());
-            Debug.Log("itemID: " + storeItemInfo.itemID);
             storeItemInfo.premiumCurrencyValue = int.Parse(storeItemsJsonArray[i]["CreditValue"].ToString());
-            Debug.Log("premiumCurrencyValue: " + storeItemInfo.premiumCurrencyValue);
             storeItemInfo.standardCurrencyValue = int.Parse(storeItemsJsonArray[i]["CoinValue"].ToString());
-            Debug.Log("standardCurrencyValue: " + storeItemInfo.standardCurrencyValue);
 
             JsonData storeItemDetailArray = LitJson.JsonMapper.ToObject(storeItemsJsonArray[i]["Detail"].ToString());
 
@@ -238,18 +222,12 @@ public class LitJsonFxJsonObjectConverter : IServiceObjectConverter
                 detail.propertyValue = (int)float.Parse(storeItemDetailArray[j]["Value"].ToString());
 
                 //detail.invertEnergy = (bool)storeItemDetailArray[j]["InvertEnergy"];
-                Debug.Log("storeitem detail : " + detail.propertyName);
                 storeItemDetails.Add(detail);
             }
 
             storeItemInfo.itemDetail = storeItemDetails;
 
             //TODO add tag support
-            //JsonData tagsArray = LitJson.JsonMapper.ToObject(storeItemsJsonArray[i]["tags"].ToString());
-            //for (int k = 0; k < tagsArray.Count; k++)
-            //{
-            //    storeItemInfo.tags.Add(tagsArray[k].ToString());
-            //}
 
             storeItemInfo.imageURL = storeItemsJsonArray[i]["Image"].ToString();
 

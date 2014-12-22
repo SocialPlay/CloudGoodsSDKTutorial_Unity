@@ -37,19 +37,11 @@ public class UnityUIStoreLoader : StoreLoader
 
             for (int i = pageNum * maxGridAmount; i < (pageNum * maxGridAmount + PageMax); i++)
             {
-                Debug.Log("UnityUIStoreLoader, Add new items to the grid");
                 GameObject newItem = Instantiate(itemButtonPrefab) as GameObject;
-                Debug.Log("UnityUIStoreLoader, Create new item for the grid");
-                Debug.Log(string.Format("UnityUIStoreLoader, created item: {0}", newItem));
-                Debug.Log("new item transform: " + newItem.transform);
-                //newItem.transform.SetParent(transform);
-                //newItem.transform.parent = transform;
-                Debug.Log("UnityUIStoreLoader, Attach new item to parent.");
+                newItem.transform.SetParent(transform);
+                newItem.transform.parent = transform;
                 newItem.transform.localPosition = Vector3.zero;
-                Debug.Log("UnityUIStoreLoader, Set new item local position");
                 newItem.transform.localScale = Vector3.one;
-                Debug.Log("UnityUIStoreLoader, Set new item local scale");
-                Debug.Log("UnityUIStoreLoader, LoadStoreWithPaging newItem: " + newItem);
                 currentPageItems.Add(newItem);
 
                 UnityUIStoreItem itemInfo = newItem.GetComponent<UnityUIStoreItem>();
@@ -73,7 +65,7 @@ public class UnityUIStoreLoader : StoreLoader
         for (int i = pageAmount-1; i > -1; i--)
         {
             GameObject newPage = (GameObject)GameObject.Instantiate(pageButtonPrefab);
-            newPage.transform.parent = pageGridObject.transform;
+            newPage.transform.SetParent(pageGridObject.transform);
             newPage.transform.localScale = new Vector3(1, 1, 1);
 
             UnityUIPageInfo pageInfo = newPage.GetComponent<UnityUIPageInfo>();

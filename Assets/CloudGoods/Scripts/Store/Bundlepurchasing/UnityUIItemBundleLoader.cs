@@ -11,10 +11,16 @@ public class UnityUIItemBundleLoader : MonoBehaviour {
 
     List<GameObject> ItemBundleObj = new List<GameObject>();
 
-    void Awake()
+    void OnEnable()
     {
         CloudGoods.OnStoreItemBundleListLoaded += CloudGoods_OnStoreItemBundleListLoaded;
     }
+
+    void OnDisable()
+    {
+        CloudGoods.OnStoreItemBundleListLoaded -= CloudGoods_OnStoreItemBundleListLoaded;
+    }
+
 
     void CloudGoods_OnStoreItemBundleListLoaded(List<ItemBundle> obj)
     {
@@ -30,6 +36,12 @@ public class UnityUIItemBundleLoader : MonoBehaviour {
         {
             GameObject newItemBundle = (GameObject)GameObject.Instantiate(ItemBundleButtonObject);
             UnityUIItemBundle ItemBundle = newItemBundle.GetComponent<UnityUIItemBundle>();
+
+            Debug.Log("New item bundle: " + newItemBundle);
+
+            if (gridObject == null)
+                gridObject = transform.GetChild(0).gameObject;
+            Debug.Log("Grid object: " + gridObject);
 
             newItemBundle.transform.parent = gridObject.transform;
             newItemBundle.transform.localScale = new Vector3(1, 1, 1);

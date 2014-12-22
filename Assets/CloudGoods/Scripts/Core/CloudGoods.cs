@@ -1503,15 +1503,9 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
         if (www.error == null)
         {
-            try
-            {
                 Debug.Log("debug for store items: " + www.text);
                 callback(serviceConverter.ConvertToStoreItems(www.text));
-            }
-            catch
-            {
-                Debug.LogError(www.text);
-            }
+
         }
         else
         {
@@ -1570,8 +1564,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
         if (www.error == null)
         {
-            try
-            {
+
                 Debug.Log(www.text);
                 List<ItemBundle> itemBundles = serviceConverter.ConvertToListItemBundle(www.text);
                 if (OnStoreItemBundleListLoaded != null)
@@ -1581,11 +1574,8 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
                 if (callback != null)
                     callback(itemBundles);
-            }
-            catch
-            {
-                Debug.LogError(www.text);
-            }
+
+
         }
         else
         {
