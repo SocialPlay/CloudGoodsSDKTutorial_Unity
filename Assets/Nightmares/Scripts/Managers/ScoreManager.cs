@@ -21,8 +21,16 @@ public class ScoreManager : MonoBehaviour
         // Reset the score.
         score = 0;
         highestScore = 0;
+    }
 
+    void OnEnable()
+    {
         UserDataManager.UserDataReady += UserDataManager_UserDataReady;
+    }
+
+    void OnDisable()
+    {
+        UserDataManager.UserDataReady -= UserDataManager_UserDataReady;
     }
 
     void UserDataManager_UserDataReady(PlayerData playerData)

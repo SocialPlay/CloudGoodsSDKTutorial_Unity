@@ -21,16 +21,13 @@ public class UnityUIStoreLoader : StoreLoader
         {
             isLoadingPage = true;
 
-            Debug.Log("UnityUIStoreLoader, LoadStoreWithPaging: " + listItems.Count);
             filteredList = listItems;
 
             if (currentPageItems.Count > 0)
             {
-                Debug.Log("UnityUIStoreLoader, ClearCurrentGrid");
                 ClearCurrentGrid();
             }
 
-            Debug.Log("UnityUIStoreLoader, Clear currentPageItems");
             currentPageItems.Clear();
 
             int PageMax = GetPageMax(listItems.Count, pageNum);
@@ -51,7 +48,6 @@ public class UnityUIStoreLoader : StoreLoader
                 storeButton.onClick.AddListener(itemInfo.OnStoreItemClicked);
             }
 
-            Debug.Log("LoadStoreWithPaging currentPageItems: " + currentPageItems.Count);
             SetPageButtons(GetPageAmount(listItems.Count));
 
             isLoadingPage = false;

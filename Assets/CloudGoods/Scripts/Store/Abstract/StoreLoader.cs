@@ -25,7 +25,6 @@ public abstract class StoreLoader : MonoBehaviour
 
     protected void OnStoreListLoaded(List<StoreItem> listItems)
     {
-        Debug.Log("Store Loader, OnStoreListLoaded: " + listItems.Count);
         items = listItems;
         LoadStoreWithPaging(items, 0);
     }

@@ -6,14 +6,26 @@ public class AutoTimer
     public float length;
     public float current;
 
+    bool paused = false;
+
     public bool IsDone()
     {
         if (current >= length)
         {
             return true;
         }
-        current += Time.deltaTime;
+
+        if (!paused)
+        {
+            current += Time.deltaTime;
+        }
+        
         return false;
+    }
+
+    public void Pause(bool state)
+    {
+        paused = state;
     }
 
     public void Reset()

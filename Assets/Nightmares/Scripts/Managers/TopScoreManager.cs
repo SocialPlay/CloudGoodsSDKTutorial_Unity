@@ -16,15 +16,15 @@ public class TopScoreManager : MonoBehaviour
 
     AutoTimer refreshButtonEnableTimer = new AutoTimer(5);
 
-    void OnLevelWasLoaded(int scene)
-    {
-        InitializeTopScores();
-    }
-
-	void Awake()
+	void OnEnable()
     {
         CloudGoods.OnUserAuthorized += CloudGoods_OnUserAuthorized;
 	}
+
+    void OnDisable()
+    {
+        CloudGoods.OnUserAuthorized -= CloudGoods_OnUserAuthorized;
+    }
 
     void CloudGoods_OnUserAuthorized(CloudGoodsUser obj)
     {
@@ -100,7 +100,6 @@ public class TopScoreManager : MonoBehaviour
 
     void playRefreshAnimation()
     {
-        Debug.Log("Playing Refresh Animation");
         refreshScoreButton.interactable = false;
 
         if (!refreshButtonAnim.IsInTransition(0))
@@ -111,7 +110,6 @@ public class TopScoreManager : MonoBehaviour
 
     void stopRefreshAnimation()
     {
-        Debug.Log("Stoping Refresh Animation");
         refreshButtonEnableTimer.Reset();
 
         if (!refreshButtonAnim.IsInTransition(0))

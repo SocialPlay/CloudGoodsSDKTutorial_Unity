@@ -193,8 +193,6 @@ public class LitJsonFxJsonObjectConverter : IServiceObjectConverter
 
     public List<StoreItem> ConvertToStoreItems(string dataString)
     {
-        Debug.Log("Store call: " + dataString);
-
         string storeString = ParseString(dataString);
 
         List<StoreItem> storeItems = new List<StoreItem>();

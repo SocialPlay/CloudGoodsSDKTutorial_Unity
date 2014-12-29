@@ -106,7 +106,6 @@ public class PremiumCurrencyBundleStore : MonoBehaviour
 
     void OnPurchaseBundlesRecieved(List<PaidCurrencyBundleItem> data)
     {
-        Debug.Log("Got credit bundles");
         gridLoader = (IGridLoader)Grid.GetComponent(typeof(IGridLoader));
         gridLoader.ItemAdded += OnItemInGrid;
         gridLoader.LoadGrid(data);

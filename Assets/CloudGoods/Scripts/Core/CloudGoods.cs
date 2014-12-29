@@ -721,8 +721,6 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
     {
         string url = Url + "RegisterSession?UserId=" + user.userID + "&AppID=" + AppID.Trim() + "&InstanceId=" + instanceID;
 
-        Debug.Log(url);
-
         WWW www = new WWW(url);
 
         Get().StartCoroutine(Get().ServiceGetGuid(www, callback));
@@ -1013,16 +1011,14 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
         Get().StartCoroutine(Get().ServiceGetStoreItems(www, (List<StoreItem> items) =>
         {
             storeItems = items;
-            Debug.Log("CloudGoods, GetStoreItems store items: " + storeItems.Count);
+
             if (OnStoreListLoaded != null)
             {
-                Debug.Log("CloudGoods, GetStoreItems store items OnStoreListLoaded");
                 OnStoreListLoaded(storeItems);
             }
 
             if (callback != null)
             {
-                Debug.Log("CloudGoods, GetStoreItems store items callback");
                 callback(storeItems);
             }
         }));
@@ -1164,8 +1160,6 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
         WWW www = new WWW(url);
 
-        Debug.Log("URL get credit bundles:" + url);
-
         Get().StartCoroutine(Get().ServiceGetCreditBundles(www, callback));
     }
 
@@ -1175,11 +1169,8 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
         WWW www = new WWW(url);
 
-        Debug.Log("Purchase bundles url: " + url);
-
         Get().StartCoroutine(Get().ServiceGetString(www, (string message) =>
         {
-            Debug.Log("PUrchase credit bundles callback: : " + message);
             JsonData response = LitJson.JsonMapper.ToObject(message);
 
             GetStandardCurrencyBalance(0, null);
@@ -1503,9 +1494,7 @@ public class CloudGoods : MonoBehaviour//, IServiceCalls
 
         if (www.error == null)
         {
-                Debug.Log("debug for store items: " + www.text);
                 callback(serviceConverter.ConvertToStoreItems(www.text));
-
         }
         else
         {

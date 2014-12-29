@@ -20,6 +20,8 @@ public class PlayerEffects : MonoBehaviour
 
     void Update()
     {
+        playerSpeedTimer.Pause(PauseManager.IsPaused);
+
         if (playerSpeedTimer.IsDone())
         {
             playerMovement.speed = 6;
@@ -30,7 +32,7 @@ public class PlayerEffects : MonoBehaviour
 
     void ActivateSpeedUpEffect()
     {
-
+        
     }
 
     void DeactivateSpeedUpEffect()

@@ -22,18 +22,21 @@ public class UserDataManager : MonoBehaviour
         xpReady = false,
         hiScoreReady = false;
 
-    void OnLevelWasLoaded(int level)
-    {
-        InitializeUserData();
-    }
-
     void Awake()
     {
         LevelUserDataKey = levelUserDataKey;
         ExperienceUserDataKey = experienceUserDataKey;
         HighScoreUserDataKey = highScoreUserDataKey;
+    }
 
+    void OnEnable()
+    {
         CloudGoods.OnUserAuthorized += CloudGoods_OnUserAuthorized;
+    }
+
+    void OnDisable()
+    {
+        CloudGoods.OnUserAuthorized -= CloudGoods_OnUserAuthorized;
     }
 
     void CloudGoods_OnUserAuthorized(CloudGoodsUser obj)
@@ -127,16 +130,19 @@ public class UserDataManager : MonoBehaviour
 
     public static void SaveUserHighestScore(string score)
     {
+        Debug.Log("saving user highest score " + score);
         CloudGoods.SaveUserData(HighScoreUserDataKey, score, null);
     }
 
     public static void SaveUserLevel(string level)
     {
+        Debug.Log("saving user level " + level);
         CloudGoods.SaveUserData(LevelUserDataKey, level, null);
     }
 
     public static void SaveUserExperience(string experience)
     {
+        Debug.Log("saving user experience " + experience);
         CloudGoods.SaveUserData(ExperienceUserDataKey, experience, null);
     }
 }

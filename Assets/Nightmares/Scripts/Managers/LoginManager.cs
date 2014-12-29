@@ -15,7 +15,20 @@ public class LoginManager : MonoBehaviour {
     {
         DisableButtons();
 
+        if (!loginSystem.loginTab.activeInHierarchy)
+        {
+            loginSystem.loginTab.SetActive(true);
+        }
+    }
+
+    void OnEnable()
+    {
         CloudGoods.OnUserAuthorized += CloudGoods_OnUserAuthorized;
+    }
+
+    void OnDisable()
+    {
+        CloudGoods.OnUserAuthorized -= CloudGoods_OnUserAuthorized;
     }
 
     void CloudGoods_OnUserAuthorized(CloudGoodsUser player)

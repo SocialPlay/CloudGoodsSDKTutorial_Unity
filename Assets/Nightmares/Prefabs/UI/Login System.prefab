@@ -49,7 +49,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &100006
 GameObject:
   m_ObjectHideFlags: 1
@@ -2643,14 +2643,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: .745098054}
+  m_Color: {r: .745098054, g: .745098054, b: .745098054, a: 1}
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 32
     m_FontStyle: 2
     m_BestFit: 1
     m_MinSize: 16
-    m_MaxSize: 32
+    m_MaxSize: 20
     m_Alignment: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -2669,14 +2669,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: .745098054}
+  m_Color: {r: .745098054, g: .745098054, b: .745098054, a: 1}
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 32
     m_FontStyle: 2
     m_BestFit: 1
     m_MinSize: 16
-    m_MaxSize: 32
+    m_MaxSize: 20
     m_Alignment: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -2695,14 +2695,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: .745098054}
+  m_Color: {r: .745098054, g: .745098054, b: .745098054, a: 1}
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 32
     m_FontStyle: 2
     m_BestFit: 1
     m_MinSize: 16
-    m_MaxSize: 32
+    m_MaxSize: 20
     m_Alignment: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -2721,14 +2721,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: .745098054}
+  m_Color: {r: .745098054, g: .745098054, b: .745098054, a: 1}
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 32
     m_FontStyle: 2
     m_BestFit: 1
     m_MinSize: 16
-    m_MaxSize: 32
+    m_MaxSize: 20
     m_Alignment: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -2747,14 +2747,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: .745098054}
+  m_Color: {r: .745098054, g: .745098054, b: .745098054, a: 1}
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 32
     m_FontStyle: 2
     m_BestFit: 1
     m_MinSize: 16
-    m_MaxSize: 32
+    m_MaxSize: 20
     m_Alignment: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -2773,14 +2773,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: .745098054}
+  m_Color: {r: .745098054, g: .745098054, b: .745098054, a: 1}
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 32
     m_FontStyle: 2
     m_BestFit: 1
     m_MinSize: 16
-    m_MaxSize: 32
+    m_MaxSize: 20
     m_Alignment: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -4060,8 +4060,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.5, y: 0}
-  m_SizeDelta: {x: -25, y: -20}
+  m_AnchoredPosition: {x: 2.5, y: -1}
+  m_SizeDelta: {x: -25, y: -22}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22400106
 RectTransform:
@@ -4077,8 +4077,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.5, y: 0}
-  m_SizeDelta: {x: -25, y: -20}
+  m_AnchoredPosition: {x: 2.5, y: -1}
+  m_SizeDelta: {x: -25, y: -22}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22400108
 RectTransform:
@@ -4094,8 +4094,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.5, y: 0}
-  m_SizeDelta: {x: -25, y: -20}
+  m_AnchoredPosition: {x: 2.5, y: -1}
+  m_SizeDelta: {x: -25, y: -22}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22400110
 RectTransform:
@@ -4111,8 +4111,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.5, y: 0}
-  m_SizeDelta: {x: -25, y: -20}
+  m_AnchoredPosition: {x: 2.5, y: -1.5}
+  m_SizeDelta: {x: -25, y: -23}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22400112
 RectTransform:
@@ -4128,8 +4128,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.5, y: 0}
-  m_SizeDelta: {x: -25, y: -20}
+  m_AnchoredPosition: {x: 2.5, y: -1}
+  m_SizeDelta: {x: -25, y: -22}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22400114
 RectTransform:
@@ -4145,8 +4145,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.5, y: 0}
-  m_SizeDelta: {x: -25, y: -20}
+  m_AnchoredPosition: {x: 2.5, y: -1}
+  m_SizeDelta: {x: -25, y: -22}
   m_Pivot: {x: .5, y: .5}
 --- !u!1001 &100100000
 Prefab:

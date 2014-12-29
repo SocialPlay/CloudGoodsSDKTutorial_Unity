@@ -66,3 +66,12 @@ MonoBehaviour:
       CollectionIDList: 
       TagList: []
       behaviours: []
+  - prefab: {fileID: 100004, guid: 26eacc86c37649a41aceafe95fdb6f77, type: 2}
+    itemFilters:
+    - selectorType: 3
+      isInverted: 0
+      classList: 
+      ItemIDList: fcd80000
+      CollectionIDList: 
+      TagList: []
+      behaviours: []

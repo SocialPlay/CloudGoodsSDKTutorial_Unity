@@ -22,15 +22,24 @@ public class GameOverManager : MonoBehaviour
         }
     }
 
+    void ResetStaticGameData()
+    {
+        PlayerHealth.IsDead = false;
+        PauseManager.IsPauseDisabled = false;
+        PauseManager.IsPaused = false;
+    }
+
     public void RestartGame()
     {
         // Reload the currently loaded level.
+        ResetStaticGameData();
         Application.LoadLevel(Application.loadedLevel);
     }
 
     public void QuitGame()
     {
         // Load the title menu.
+        ResetStaticGameData();
         Application.LoadLevel(0);
     }
 }

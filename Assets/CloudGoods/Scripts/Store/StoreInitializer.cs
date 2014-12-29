@@ -15,7 +15,6 @@ public class StoreInitializer : MonoBehaviour
 
     public void InitializeStore()
     {
-        Debug.Log("Initialized store");
         CloudGoods.GetStandardCurrencyBalance(0, null);
         CloudGoods.GetPremiumCurrencyBalance(null);
 
@@ -31,7 +30,6 @@ public class StoreInitializer : MonoBehaviour
 
     void OnReceivedStoreItems(List<StoreItem> newStoreItems)
     {
-        Debug.Log("StoreInitializer, OnReceivedStoreItems: " + newStoreItems.Count);
         for (int i = 0; i < newStoreItems.Count; i++)
         {
             storeItems.Add(newStoreItems[i]);

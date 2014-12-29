@@ -34,15 +34,16 @@ public class PlayerPickUp : MonoBehaviour
 
     void PickUpItem(GameObject itemObject)
     {
-        ItemData itemData = itemObject.GetComponent<ItemDataComponent>().itemData;
+        ItemDataComponent item = itemObject.GetComponent<ItemDataComponent>();
 
-        if (itemData.classID == 4321)
+        Debug.Log("itemData class ID: " + item.itemData.classID);
+        if (item.itemData.classID == 4321)
         {
-            ApplyInstantUse(itemData, itemObject);
+            ApplyInstantUse(item.itemData, itemObject);
         }
         else
         {
-            ItemContainerManager.MoveItem(itemData, null, itemContainer);
+            ItemContainerManager.MoveItem(item.itemData, null, itemContainer);
 
             Destroy(itemObject);
         }
@@ -66,7 +67,7 @@ public class PlayerPickUp : MonoBehaviour
 
                 float speedPower = GetItemDataStatValue(itemData.stats, "Power");
 
-                playerFX.SetPlayerSpeed(speedPower / 2);
+                playerFX.SetPlayerSpeed(speedPower / 6);
 
                 Destroy(itemObject);
                 break;
@@ -86,7 +87,7 @@ public class PlayerPickUp : MonoBehaviour
             Debug.LogError("Unable to get value: " + value + ", from item data stats.");
         }
 
-        return 0;
+        return power;
     }
 
     void PickUpExperience(GameObject xpObject)
