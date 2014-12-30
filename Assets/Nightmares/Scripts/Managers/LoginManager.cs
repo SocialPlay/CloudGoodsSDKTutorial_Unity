@@ -14,11 +14,7 @@ public class LoginManager : MonoBehaviour {
     void Awake()
     {
         DisableButtons();
-
-        if (!loginSystem.loginTab.activeInHierarchy)
-        {
-            loginSystem.loginTab.SetActive(true);
-        }
+        OpenLoginSystem();
     }
 
     void OnEnable()
@@ -41,6 +37,14 @@ public class LoginManager : MonoBehaviour {
         ActivateButtons();
     }
 
+    void OpenLoginSystem()
+    {
+        if (!loginSystem.loginTab.activeInHierarchy && !UserAlreadyLoggedIn())
+        {
+            loginSystem.loginTab.SetActive(true);
+        }
+    }
+
     void ActivateButtons()
     {
         startGameButton.interactable = true;
@@ -53,6 +57,11 @@ public class LoginManager : MonoBehaviour {
         startGameButton.interactable = false;
         shopButton.interactable = false;
         logoutButton.interactable = false;
+    }
+
+    bool UserAlreadyLoggedIn()
+    {
+        return CloudGoods.isLogged;
     }
 
     public void LogoutPlayer()

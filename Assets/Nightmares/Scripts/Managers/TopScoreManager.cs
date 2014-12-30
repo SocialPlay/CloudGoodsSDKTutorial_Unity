@@ -14,21 +14,35 @@ public class TopScoreManager : MonoBehaviour
     public List<PlayerScore> playerScores = new List<PlayerScore>();
     public Text[] scoreSlots;
 
+    List<MultipleUserDataValue> playerData = new List<MultipleUserDataValue>();
+
     AutoTimer refreshButtonEnableTimer = new AutoTimer(5);
+
+    void OnLevelWasLoaded(int scene)
+    {
+        InitializeTopScores();
+    }
 
 	void OnEnable()
     {
         CloudGoods.OnUserAuthorized += CloudGoods_OnUserAuthorized;
+        UserDataManager.UserDataReady += UserDataManager_UserDataReady;
 	}
 
     void OnDisable()
     {
         CloudGoods.OnUserAuthorized -= CloudGoods_OnUserAuthorized;
+        UserDataManager.UserDataReady -= UserDataManager_UserDataReady;
     }
 
     void CloudGoods_OnUserAuthorized(CloudGoodsUser obj)
     {
         InitializeTopScores();
+    }
+
+    void UserDataManager_UserDataReady(PlayerData obj)
+    {
+        SetHighScores(playerData);
     }
 
     void InitializeTopScores()
@@ -46,9 +60,7 @@ public class TopScoreManager : MonoBehaviour
             return;
         }
 
-        List<MultipleUserDataValue> playerData = userData;
-
-        SetHighScores(playerData);
+        playerData = userData;
     }
 
     void Update()
@@ -85,7 +97,7 @@ public class TopScoreManager : MonoBehaviour
 
         for (int i = 0; i < scoreSlots.Length; i++)
         {
-            if (i > playerScores.Count) break;
+            if (i > playerScores.Count - 1) break;
 
             SetScoreSlotText(i, (i + 1) + ". " + playerScores[i].name + " : " + playerScores[i].score);
         }

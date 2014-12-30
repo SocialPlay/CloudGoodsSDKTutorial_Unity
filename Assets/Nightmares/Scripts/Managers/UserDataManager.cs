@@ -22,6 +22,11 @@ public class UserDataManager : MonoBehaviour
         xpReady = false,
         hiScoreReady = false;
 
+    void OnLevelWasLoaded(int scene)
+    {
+        InitializeUserData();
+    }
+
     void Awake()
     {
         LevelUserDataKey = levelUserDataKey;
@@ -113,7 +118,10 @@ public class UserDataManager : MonoBehaviour
             xpReady = false;
             hiScoreReady = false;
 
-            if (UserDataReady != null) UserDataReady(GetPlayerData());
+            if (UserDataReady != null)
+            {
+                UserDataReady(GetPlayerData());
+            }
         }
     }
 
@@ -130,19 +138,16 @@ public class UserDataManager : MonoBehaviour
 
     public static void SaveUserHighestScore(string score)
     {
-        Debug.Log("saving user highest score " + score);
         CloudGoods.SaveUserData(HighScoreUserDataKey, score, null);
     }
 
     public static void SaveUserLevel(string level)
     {
-        Debug.Log("saving user level " + level);
         CloudGoods.SaveUserData(LevelUserDataKey, level, null);
     }
 
     public static void SaveUserExperience(string experience)
     {
-        Debug.Log("saving user experience " + experience);
         CloudGoods.SaveUserData(ExperienceUserDataKey, experience, null);
     }
 }
